@@ -10,11 +10,6 @@ public class AuthController {
 
     @RequestMapping(value = "login", method = RequestMethod.POST)
     public String login() {
-        return "Login";
-    }
-
-    @RequestMapping(value = "register", method = RequestMethod.POST)
-    public String register() {
-        return "Register";
+        return "Luis mira si funciona";
     }
 }

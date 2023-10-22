@@ -1,17 +1,17 @@
 package pe.edu.utp.olimpiadas_aqp.beans;
 
 public class User {
-    private Long idUser;
+    private Long userId;
     private String fullName;
     private String email;
     private String password;
 
-    public Long getIdUser() {
-        return idUser;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setIdUser(Long idUser) {
-        this.idUser = idUser;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public String getFullName() {
