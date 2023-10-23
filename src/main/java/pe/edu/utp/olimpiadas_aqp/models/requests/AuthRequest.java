@@ -1,17 +1,8 @@
 package pe.edu.utp.olimpiadas_aqp.models.requests;
 
-public class UserRequest {
-    private String fullName;
+public class AuthRequest {
     private String email;
     private String password;
-
-    public String getFullName() {
-        return fullName;
-    }
-
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
 
     public String getEmail() {
         return email;

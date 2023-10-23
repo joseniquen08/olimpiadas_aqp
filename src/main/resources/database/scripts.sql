@@ -69,7 +69,7 @@ INSERT INTO `role` (`role_id`, `name`) VALUES
 
 CREATE TABLE `user` (
   `user_id` bigint(20) NOT NULL,
-  `name` varchar(256) NOT NULL,
+  `full_name` varchar(256) NOT NULL,
   `email` varchar(256) NOT NULL,
   `password` varchar(512) NOT NULL,
   `role_id` bigint(20) NOT NULL,
@@ -80,7 +80,7 @@ CREATE TABLE `user` (
 -- Volcado de datos para la tabla `user`
 --
 
-INSERT INTO `user` (`user_id`, `name`, `email`, `password`, `role_id`, `created_at`) VALUES
+INSERT INTO `user` (`user_id`, `full_name`, `email`, `password`, `role_id`, `created_at`) VALUES
 (1, 'Administrador Principal', 'admin@olimpiadasaqp.com', '123456', 1, '2023-10-22 01:59:52');
 
 --
