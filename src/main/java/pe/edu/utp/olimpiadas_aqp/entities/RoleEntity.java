@@ -1,11 +1,10 @@
 package pe.edu.utp.olimpiadas_aqp.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity(name = "role")
 public class RoleEntity implements Serializable {
@@ -13,11 +12,11 @@ public class RoleEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "role_id", nullable = false)
     private Long roleId;
 
-    @Column(nullable = false, length = 256)
+    @Column(nullable = false)
     private String name;
 
     public Long getRoleId() {

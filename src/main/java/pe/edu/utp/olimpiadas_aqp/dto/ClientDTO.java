@@ -1,15 +1,14 @@
 package pe.edu.utp.olimpiadas_aqp.dto;
 
-public class UserClientDTO {
+public class ClientDTO {
     private String fullName;
     private String email;
-  
-    private String ruc;
+    private Long ruc;
     private String representative;
-    private String phone;
+    private Long phone;
 
 	public String getFullName() {
-		return this.fullName;
+		return fullName;
 	}
 
 	public void setFullName(String fullName) {
@@ -17,35 +16,34 @@ public class UserClientDTO {
 	}
 
 	public String getEmail() {
-		return this.email;
+		return email;
 	}
 
 	public void setEmail(String email) {
 		this.email = email;
 	}
 
-
-	public String getRuc() {
-		return this.ruc;
+	public Long getRuc() {
+		return ruc;
 	}
 
-	public void setRuc(String ruc) {
+	public void setRuc(Long ruc) {
 		this.ruc = ruc;
 	}
 
 	public String getRepresentative() {
-		return this.representative;
+		return representative;
 	}
 
 	public void setRepresentative(String representative) {
 		this.representative = representative;
 	}
 
-	public String getPhone() {
-		return this.phone;
+	public Long getPhone() {
+		return phone;
 	}
 
-	public void setPhone(String phone) {
+	public void setPhone(Long phone) {
 		this.phone = phone;
 	}
 }

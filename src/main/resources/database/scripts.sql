@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 22-10-2023 a las 04:00:44
+-- Tiempo de generación: 24-10-2023 a las 20:38:44
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -30,16 +30,37 @@ SET time_zone = "+00:00";
 CREATE TABLE `admin` (
   `admin_id` bigint(20) NOT NULL,
   `dni` bigint(20) NOT NULL,
-  `user_id` bigint(20) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `user_id` bigint(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `admin`
 --
 
-INSERT INTO `admin` (`admin_id`, `dni`, `user_id`, `created_at`) VALUES
-(1, 87654321, 1, '2023-10-22 02:00:17');
+INSERT INTO `admin` (`admin_id`, `dni`, `user_id`) VALUES
+(1, 81726354, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `client`
+--
+
+CREATE TABLE `client` (
+  `client_id` bigint(20) NOT NULL,
+  `phone` bigint(20) NOT NULL,
+  `representative` varchar(256) NOT NULL,
+  `ruc` bigint(20) NOT NULL,
+  `user_id` bigint(20) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `client`
+--
+
+INSERT INTO `client` (`client_id`, `phone`, `representative`, `ruc`, `user_id`) VALUES
+(1, 987654321, 'José Ñiquen', 21263548712, 2),
+(2, 987654123, 'Pedro Martinez', 21763598712, 3);
 
 -- --------------------------------------------------------
 
@@ -49,7 +70,7 @@ INSERT INTO `admin` (`admin_id`, `dni`, `user_id`, `created_at`) VALUES
 
 CREATE TABLE `role` (
   `role_id` bigint(20) NOT NULL,
-  `name` varchar(256) NOT NULL
+  `name` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -69,19 +90,20 @@ INSERT INTO `role` (`role_id`, `name`) VALUES
 
 CREATE TABLE `user` (
   `user_id` bigint(20) NOT NULL,
-  `full_name` varchar(256) NOT NULL,
-  `email` varchar(256) NOT NULL,
-  `password` varchar(512) NOT NULL,
-  `role_id` bigint(20) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `email` varchar(255) NOT NULL,
+  `full_name` varchar(255) NOT NULL,
+  `password` varchar(511) NOT NULL,
+  `role_id` bigint(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `user`
 --
 
-INSERT INTO `user` (`user_id`, `full_name`, `email`, `password`, `role_id`, `created_at`) VALUES
-(1, 'Administrador Principal', 'admin@olimpiadasaqp.com', '123456', 1, '2023-10-22 01:59:52');
+INSERT INTO `user` (`user_id`, `email`, `full_name`, `password`, `role_id`) VALUES
+(1, 'admin@olimpiadasaqp.com', 'Admin Principal', '123456', 1),
+(2, 'cto@solucionejose.tech', 'Soluciones Jose', '$2a$10$qMa0dJ9Soe.95mFNFOHMhu2.7aI8IdrOIX3tIDFynPJSBbuzd6q8G', 2),
+(3, 'marketing@cima.edu.pe', 'Colegio CIMA', '$2a$10$cUN9I32JF2depUNIaUXXBeJnrnY3Tx9HYc8PNPmtQX/SsuQHb4Pyq', 2);
 
 --
 -- Índices para tablas volcadas
@@ -92,8 +114,15 @@ INSERT INTO `user` (`user_id`, `full_name`, `email`, `password`, `role_id`, `cre
 --
 ALTER TABLE `admin`
   ADD PRIMARY KEY (`admin_id`),
-  ADD UNIQUE KEY `dni_unique` (`dni`),
-  ADD KEY `fk_role_id` (`user_id`);
+  ADD UNIQUE KEY `index_dni` (`dni`),
+  ADD UNIQUE KEY `UK_hawikyhwwfvbnog5byokutpff` (`user_id`);
+
+--
+-- Indices de la tabla `client`
+--
+ALTER TABLE `client`
+  ADD PRIMARY KEY (`client_id`),
+  ADD UNIQUE KEY `UK_1ixfyfepst9sjbo9op1v65fg0` (`user_id`);
 
 --
 -- Indices de la tabla `role`
@@ -106,7 +135,8 @@ ALTER TABLE `role`
 --
 ALTER TABLE `user`
   ADD PRIMARY KEY (`user_id`),
-  ADD KEY `fk_role_id` (`role_id`) USING BTREE;
+  ADD UNIQUE KEY `index_email` (`email`),
+  ADD KEY `FKn82ha3ccdebhokx3a8fgdqeyy` (`role_id`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
@@ -119,6 +149,12 @@ ALTER TABLE `admin`
   MODIFY `admin_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT de la tabla `client`
+--
+ALTER TABLE `client`
+  MODIFY `client_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT de la tabla `role`
 --
 ALTER TABLE `role`
@@ -128,7 +164,7 @@ ALTER TABLE `role`
 -- AUTO_INCREMENT de la tabla `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `user_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Restricciones para tablas volcadas
@@ -138,13 +174,19 @@ ALTER TABLE `user`
 -- Filtros para la tabla `admin`
 --
 ALTER TABLE `admin`
-  ADD CONSTRAINT `fk_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`);
+  ADD CONSTRAINT `FK8ahhk8vqegfrt6pd1p9i03aej` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`);
+
+--
+-- Filtros para la tabla `client`
+--
+ALTER TABLE `client`
+  ADD CONSTRAINT `FKk1fi84oi1yyuswr40h38kjy1s` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`);
 
 --
 -- Filtros para la tabla `user`
 --
 ALTER TABLE `user`
-  ADD CONSTRAINT `fk_role_id` FOREIGN KEY (`role_id`) REFERENCES `role` (`role_id`);
+  ADD CONSTRAINT `FKn82ha3ccdebhokx3a8fgdqeyy` FOREIGN KEY (`role_id`) REFERENCES `role` (`role_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

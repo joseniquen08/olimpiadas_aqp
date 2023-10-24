@@ -2,28 +2,52 @@ package pe.edu.utp.olimpiadas_aqp.services;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import pe.edu.utp.olimpiadas_aqp.entities.UserClientEntity;
+import pe.edu.utp.olimpiadas_aqp.dto.ClientDTO;
+import pe.edu.utp.olimpiadas_aqp.entities.ClientEntity;
+import pe.edu.utp.olimpiadas_aqp.entities.RoleEntity;
 import pe.edu.utp.olimpiadas_aqp.entities.UserEntity;
-import pe.edu.utp.olimpiadas_aqp.models.requests.UserClienteRequest;
-import pe.edu.utp.olimpiadas_aqp.models.requests.UserRequest;
-import pe.edu.utp.olimpiadas_aqp.models.responses.UserClientResponse;
-import pe.edu.utp.olimpiadas_aqp.repositories.UserClientRepository;
+import pe.edu.utp.olimpiadas_aqp.models.requests.ClientRequest;
+import pe.edu.utp.olimpiadas_aqp.models.responses.ClientResponse;
+import pe.edu.utp.olimpiadas_aqp.repositories.ClientRepository;
+import pe.edu.utp.olimpiadas_aqp.repositories.UserRepository;
 
 @Service
 public class UserService implements UserServiceInterface {
 
     @Autowired
-    UserClientRepository userClientRepository;
+    UserRepository userRepository;
+
+    @Autowired
+    ClientRepository clientRepository;
+
+    @Autowired
+    BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
-    public UserClientResponse create(UserClienteRequest userClientRequest) {
-        UserClientEntity userClientEntity = new UserClientEntity();
-        BeanUtils.copyProperties(userClientRequest, userClientEntity);
-        userClientRepository.save(userClientEntity);
-        UserClientResponse userClientToReturn= new UserClientResponse();
-        BeanUtils.copyProperties(userClientEntity, userClientToReturn);
-        return userClientToReturn;
+    public ClientResponse create(ClientRequest clientRequest) {
+        UserEntity userEntity = new UserEntity();
+        RoleEntity roleEntity = new RoleEntity();
+        ClientEntity clientEntity = new ClientEntity();
+        ClientDTO clientDTO = new ClientDTO();
+        ClientResponse response = new ClientResponse();
+
+        roleEntity.setRoleId(clientRequest.getRoleId());
+        BeanUtils.copyProperties(clientRequest, userEntity);
+        userEntity.setPassword(bCryptPasswordEncoder.encode(clientRequest.getPassword()));
+        userEntity.setRole(roleEntity);
+        userRepository.save(userEntity);
+        BeanUtils.copyProperties(userEntity, clientDTO);
+
+        BeanUtils.copyProperties(clientRequest, clientEntity);
+        clientEntity.setUser(userEntity);
+        clientRepository.save(clientEntity);
+        BeanUtils.copyProperties(clientEntity, clientDTO);
+
+        response.setMessage("Cliente creado correctamente.");
+        response.setStatus(201);
+        response.setUser(clientDTO);
+        return response;
     }
 }

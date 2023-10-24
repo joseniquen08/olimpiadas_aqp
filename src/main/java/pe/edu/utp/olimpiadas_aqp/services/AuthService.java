@@ -32,7 +32,7 @@ public class AuthService implements AuthServiceInterface {
             response.setStatus(400);
             response.setMessage("El usuario no existe.");
         } else {
-            if (authRequest.getPassword().equals(userEntity.getPassword())) {
+            if (bCryptPasswordEncoder.matches(authRequest.getPassword(), userEntity.getPassword())) {
                 response.setStatus(200);
                 response.setMessage("Correcto.");
                 UserDTO userDTO = new UserDTO();

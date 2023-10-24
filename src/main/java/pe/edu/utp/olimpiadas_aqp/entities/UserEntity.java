@@ -5,22 +5,23 @@ import jakarta.persistence.*;
 import java.io.Serializable;
 
 @Entity(name = "user")
+@Table(indexes = { @Index(columnList = "email", name = "index_email", unique = true) })
 public class UserEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id", nullable = false)
     private Long userId;
 
-    @Column(name = "full_name", nullable = false, length = 256)
+    @Column(name = "full_name", nullable = false)
     private String fullName;
 
-    @Column(nullable = false, length = 256)
+    @Column(nullable = false)
     private String email;
 
-    @Column(nullable = false, length = 512)
+    @Column(nullable = false, length = 511)
     private String password;
 
     @ManyToOne

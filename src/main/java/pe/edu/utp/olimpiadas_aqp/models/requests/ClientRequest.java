@@ -1,15 +1,16 @@
 package pe.edu.utp.olimpiadas_aqp.models.requests;
 
-public class UserClienteRequest {
+public class ClientRequest {
     private String fullName;
     private String email;
     private String password;
-    private String ruc;
+	private Long roleId;
+    private Long ruc;
     private String representative;
-    private String phone;
+    private Long phone;
 
 	public String getFullName() {
-		return this.fullName;
+		return fullName;
 	}
 
 	public void setFullName(String fullName) {
@@ -17,7 +18,7 @@ public class UserClienteRequest {
 	}
 
 	public String getEmail() {
-		return this.email;
+		return email;
 	}
 
 	public void setEmail(String email) {
@@ -25,39 +26,42 @@ public class UserClienteRequest {
 	}
 
 	public String getPassword() {
-		return this.password;
+		return password;
 	}
 
 	public void setPassword(String password) {
 		this.password = password;
 	}
 
-	public String getRuc() {
-		return this.ruc;
+	public Long getRoleId() {
+		return roleId;
 	}
 
-	public void setRuc(String ruc) {
+	public void setRoleId(Long roleId) {
+		this.roleId = roleId;
+	}
+
+	public Long getRuc() {
+		return ruc;
+	}
+
+	public void setRuc(Long ruc) {
 		this.ruc = ruc;
 	}
 
 	public String getRepresentative() {
-		return this.representative;
+		return representative;
 	}
 
 	public void setRepresentative(String representative) {
 		this.representative = representative;
 	}
 
-	public String getPhone() {
-		return this.phone;
+	public Long getPhone() {
+		return phone;
 	}
 
-	public void setPhone(String phone) {
+	public void setPhone(Long phone) {
 		this.phone = phone;
 	}
-
-
-
-
-
 }
