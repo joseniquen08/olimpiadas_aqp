@@ -5,8 +5,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import pe.edu.utp.olimpiadas_aqp.models.requests.UserClienteRequest;
 import pe.edu.utp.olimpiadas_aqp.models.requests.UserRequest;
-import pe.edu.utp.olimpiadas_aqp.models.responses.UserResponse;
+import pe.edu.utp.olimpiadas_aqp.models.responses.UserClientResponse;
 import pe.edu.utp.olimpiadas_aqp.services.UserServiceInterface;
 
 @RestController
@@ -16,8 +18,9 @@ public class UserController {
     @Autowired
     UserServiceInterface userService;
 
-    @RequestMapping(value="create", method = RequestMethod.POST)
-    public UserResponse createClient(@RequestBody UserRequest userRequest) {
-        return userService.create(userRequest);
+    @RequestMapping(value="create/Cliente", method = RequestMethod.POST)
+    public UserClientResponse createClient(@RequestBody UserClienteRequest userClientRequest) {
+        return userService.create(userClientRequest);
     }
+    
 }
