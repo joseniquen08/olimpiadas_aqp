@@ -10,8 +10,12 @@ import pe.edu.utp.olimpiadas_aqp.entities.RoleEntity;
 import pe.edu.utp.olimpiadas_aqp.entities.UserEntity;
 import pe.edu.utp.olimpiadas_aqp.models.requests.ClientRequest;
 import pe.edu.utp.olimpiadas_aqp.models.responses.ClientResponse;
+import pe.edu.utp.olimpiadas_aqp.models.responses.UserResponse;
 import pe.edu.utp.olimpiadas_aqp.repositories.ClientRepository;
 import pe.edu.utp.olimpiadas_aqp.repositories.UserRepository;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class UserService implements UserServiceInterface {
@@ -24,6 +28,19 @@ public class UserService implements UserServiceInterface {
 
     @Autowired
     BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    @Override
+    public List<UserResponse> getAll() {
+        List<UserEntity> users = userRepository.findAll();
+        List<UserResponse> response = new ArrayList<>();
+        for (UserEntity user: users) {
+            UserResponse userResponse = new UserResponse();
+            BeanUtils.copyProperties(user, userResponse);
+            userResponse.setRoleName(user.getRole().getName());
+            response.add(userResponse);
+        }
+        return response;
+    }
 
     @Override
     public ClientResponse create(ClientRequest clientRequest) {
