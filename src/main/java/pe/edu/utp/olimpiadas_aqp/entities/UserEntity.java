@@ -3,6 +3,7 @@ package pe.edu.utp.olimpiadas_aqp.entities;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
+import java.sql.Date;
 
 @Entity(name = "user")
 @Table(indexes = { @Index(columnList = "email", name = "index_email", unique = true) })
@@ -18,15 +19,18 @@ public class UserEntity implements Serializable {
     @Column(name = "full_name", nullable = false)
     private String fullName;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String email;
 
     @Column(nullable = false, length = 511)
     private String password;
 
     @ManyToOne
-    @JoinColumn(name = "role_id", referencedColumnName = "role_id")
+    @JoinColumn(name = "role_id", referencedColumnName = "role_id", nullable = false)
     private RoleEntity role;
+
+    @Column(name = "created_at", nullable = false, insertable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    private Date createdAt;
 
     public Long getUserId() {
         return userId;
@@ -66,5 +70,13 @@ public class UserEntity implements Serializable {
 
     public void setRole(RoleEntity role) {
         this.role = role;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 }

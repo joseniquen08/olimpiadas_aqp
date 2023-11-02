@@ -11,7 +11,7 @@ import pe.edu.utp.olimpiadas_aqp.models.responses.AuthResponse;
 import pe.edu.utp.olimpiadas_aqp.services.AuthServiceInterface;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/api/auth")
 public class AuthController {
 
     @Autowired

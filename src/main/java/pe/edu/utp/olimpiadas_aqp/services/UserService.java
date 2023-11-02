@@ -5,13 +5,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import pe.edu.utp.olimpiadas_aqp.dto.ClientDTO;
+import pe.edu.utp.olimpiadas_aqp.dto.DelegateDTO;
 import pe.edu.utp.olimpiadas_aqp.entities.ClientEntity;
+import pe.edu.utp.olimpiadas_aqp.entities.DelegateEntity;
 import pe.edu.utp.olimpiadas_aqp.entities.RoleEntity;
 import pe.edu.utp.olimpiadas_aqp.entities.UserEntity;
 import pe.edu.utp.olimpiadas_aqp.models.requests.ClientRequest;
+import pe.edu.utp.olimpiadas_aqp.models.requests.DelegateRequest;
 import pe.edu.utp.olimpiadas_aqp.models.responses.ClientResponse;
+import pe.edu.utp.olimpiadas_aqp.models.responses.DelegateResponse;
 import pe.edu.utp.olimpiadas_aqp.models.responses.UserResponse;
 import pe.edu.utp.olimpiadas_aqp.repositories.ClientRepository;
+import pe.edu.utp.olimpiadas_aqp.repositories.DelegateRepository;
 import pe.edu.utp.olimpiadas_aqp.repositories.UserRepository;
 
 import java.util.ArrayList;
@@ -25,6 +30,9 @@ public class UserService implements UserServiceInterface {
 
     @Autowired
     ClientRepository clientRepository;
+
+    @Autowired
+    DelegateRepository delegateRepository;
 
     @Autowired
     BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -43,7 +51,7 @@ public class UserService implements UserServiceInterface {
     }
 
     @Override
-    public ClientResponse create(ClientRequest clientRequest) {
+    public ClientResponse createClient(ClientRequest clientRequest) {
         UserEntity userEntity = new UserEntity();
         RoleEntity roleEntity = new RoleEntity();
         ClientEntity clientEntity = new ClientEntity();
@@ -65,6 +73,32 @@ public class UserService implements UserServiceInterface {
         response.setMessage("Cliente creado correctamente.");
         response.setStatus(201);
         response.setUser(clientDTO);
+        return response;
+    }
+
+    @Override
+    public DelegateResponse createDelegate(DelegateRequest delegateRequest) {
+        UserEntity userEntity = new UserEntity();
+        RoleEntity roleEntity = new RoleEntity();
+        DelegateEntity delegateEntity = new DelegateEntity();
+        DelegateDTO delegateDTO = new DelegateDTO();
+        DelegateResponse response = new DelegateResponse();
+
+        roleEntity.setRoleId(delegateRequest.getRoleId());
+        BeanUtils.copyProperties(delegateRequest, userEntity);
+        userEntity.setPassword(bCryptPasswordEncoder.encode(delegateRequest.getPassword()));
+        userEntity.setRole(roleEntity);
+        userRepository.save(userEntity);
+        BeanUtils.copyProperties(userEntity, delegateDTO);
+
+        BeanUtils.copyProperties(delegateRequest, delegateEntity);
+        delegateEntity.setUser(userEntity);
+        delegateRepository.save(delegateEntity);
+        BeanUtils.copyProperties(delegateEntity, delegateDTO);
+
+        response.setMessage("Delegado creado correctamente.");
+        response.setStatus(201);
+        response.setUser(delegateDTO);
         return response;
     }
 }

@@ -3,6 +3,7 @@ package pe.edu.utp.olimpiadas_aqp.entities;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +20,9 @@ public class RoleEntity implements Serializable {
     @Column(nullable = false)
     private String name;
 
+    @Column(name = "created_at", nullable = false, insertable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    private Date createdAt;
+
     public Long getRoleId() {
         return roleId;
     }
@@ -33,5 +37,13 @@ public class RoleEntity implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 }

@@ -3,6 +3,7 @@ package pe.edu.utp.olimpiadas_aqp.entities;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
+import java.sql.Date;
 
 @Entity(name = "client")
 public class ClientEntity implements Serializable {
@@ -14,18 +15,21 @@ public class ClientEntity implements Serializable {
     @Column(name = "client_id", nullable = false)
     private Long clientId;
 
-    @Column(name = "ruc", nullable = false)
+    @Column(nullable = false)
     private Long ruc;
 
-    @Column(name = "representative", nullable = false, length = 256)
+    @Column(nullable = false)
     private String representative;
 
-    @Column(name = "phone", nullable = false)
+    @Column(nullable = false)
     private Long phone;
 
     @OneToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "user_id")
+    @JoinColumn(name = "user_id", referencedColumnName = "user_id", nullable = false)
     private UserEntity user;
+
+    @Column(name = "created_at", nullable = false, insertable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    private Date createdAt;
 
     public Long getClientId() {
         return clientId;
@@ -65,5 +69,13 @@ public class ClientEntity implements Serializable {
 
     public void setUser(UserEntity user) {
         this.user = user;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 }

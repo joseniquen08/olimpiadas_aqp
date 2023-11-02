@@ -5,19 +5,21 @@ import jakarta.persistence.*;
 import java.io.Serializable;
 import java.sql.Date;
 
-@Entity(name = "admin")
-@Table(indexes = { @Index(columnList = "dni", name = "index_dni", unique = true) })
-public class AdminEntity implements Serializable {
+@Entity(name = "delegate")
+public class DelegateEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "admin_id", nullable = false)
-    private Long adminId;
+    @Column(name = "delegate_id", nullable = false)
+    private Long delegateId;
 
     @Column(nullable = false, unique = true)
     private Long dni;
+
+    @Column(nullable = false)
+    private Long phone;
 
     @OneToOne
     @JoinColumn(name = "user_id", referencedColumnName = "user_id", nullable = false)
@@ -26,12 +28,12 @@ public class AdminEntity implements Serializable {
     @Column(name = "created_at", nullable = false, insertable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private Date createdAt;
 
-    public Long getAdminId() {
-        return adminId;
+    public Long getDelegateId() {
+        return delegateId;
     }
 
-    public void setAdminId(Long adminId) {
-        this.adminId = adminId;
+    public void setDelegateId(Long delegateId) {
+        this.delegateId = delegateId;
     }
 
     public Long getDni() {
@@ -40,6 +42,14 @@ public class AdminEntity implements Serializable {
 
     public void setDni(Long dni) {
         this.dni = dni;
+    }
+
+    public Long getPhone() {
+        return phone;
+    }
+
+    public void setPhone(Long phone) {
+        this.phone = phone;
     }
 
     public UserEntity getUser() {

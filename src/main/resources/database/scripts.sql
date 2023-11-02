@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 24-10-2023 a las 20:38:44
+-- Tiempo de generación: 31-10-2023 a las 03:03:42
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -49,18 +49,10 @@ INSERT INTO `admin` (`admin_id`, `dni`, `user_id`) VALUES
 CREATE TABLE `client` (
   `client_id` bigint(20) NOT NULL,
   `phone` bigint(20) NOT NULL,
-  `representative` varchar(256) NOT NULL,
+  `representative` varchar(255) NOT NULL,
   `ruc` bigint(20) NOT NULL,
   `user_id` bigint(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `client`
---
-
-INSERT INTO `client` (`client_id`, `phone`, `representative`, `ruc`, `user_id`) VALUES
-(1, 987654321, 'José Ñiquen', 21263548712, 2),
-(2, 987654123, 'Pedro Martinez', 21763598712, 3);
 
 -- --------------------------------------------------------
 
@@ -101,9 +93,7 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`user_id`, `email`, `full_name`, `password`, `role_id`) VALUES
-(1, 'admin@olimpiadasaqp.com', 'Admin Principal', '123456', 1),
-(2, 'cto@solucionejose.tech', 'Soluciones Jose', '$2a$10$qMa0dJ9Soe.95mFNFOHMhu2.7aI8IdrOIX3tIDFynPJSBbuzd6q8G', 2),
-(3, 'marketing@cima.edu.pe', 'Colegio CIMA', '$2a$10$cUN9I32JF2depUNIaUXXBeJnrnY3Tx9HYc8PNPmtQX/SsuQHb4Pyq', 2);
+(1, 'admin@olimpiadasaqp.com', 'Admin Principal', '$2a$12$hFl8SA/4kOrP9AoLRB7YwO4jD.AymvXnCp6aNZB66vDsM2o6bYSke', 1);
 
 --
 -- Índices para tablas volcadas
@@ -152,7 +142,7 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT de la tabla `client`
 --
 ALTER TABLE `client`
-  MODIFY `client_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `client_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
 -- AUTO_INCREMENT de la tabla `role`
@@ -164,7 +154,7 @@ ALTER TABLE `role`
 -- AUTO_INCREMENT de la tabla `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `user_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Restricciones para tablas volcadas
