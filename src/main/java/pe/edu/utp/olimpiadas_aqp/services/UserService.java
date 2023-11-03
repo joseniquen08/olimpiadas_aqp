@@ -10,11 +10,12 @@ import pe.edu.utp.olimpiadas_aqp.entities.ClientEntity;
 import pe.edu.utp.olimpiadas_aqp.entities.DelegateEntity;
 import pe.edu.utp.olimpiadas_aqp.entities.RoleEntity;
 import pe.edu.utp.olimpiadas_aqp.entities.UserEntity;
-import pe.edu.utp.olimpiadas_aqp.models.requests.ClientRequest;
-import pe.edu.utp.olimpiadas_aqp.models.requests.DelegateRequest;
-import pe.edu.utp.olimpiadas_aqp.models.responses.ClientResponse;
-import pe.edu.utp.olimpiadas_aqp.models.responses.DelegateResponse;
-import pe.edu.utp.olimpiadas_aqp.models.responses.UserResponse;
+import pe.edu.utp.olimpiadas_aqp.models.requests.user.client.ClientReq;
+import pe.edu.utp.olimpiadas_aqp.models.requests.user.delegate.DelegateReq;
+import pe.edu.utp.olimpiadas_aqp.models.responses.user.client.ClientRes;
+import pe.edu.utp.olimpiadas_aqp.models.responses.user.client.CreateClientRes;
+import pe.edu.utp.olimpiadas_aqp.models.responses.user.delegate.CreateDelegateRes;
+import pe.edu.utp.olimpiadas_aqp.models.responses.user.UserRes;
 import pe.edu.utp.olimpiadas_aqp.repositories.ClientRepository;
 import pe.edu.utp.olimpiadas_aqp.repositories.DelegateRepository;
 import pe.edu.utp.olimpiadas_aqp.repositories.UserRepository;
@@ -38,34 +39,47 @@ public class UserService implements UserServiceInterface {
     BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
-    public List<UserResponse> getAll() {
+    public List<UserRes> getAll() {
         List<UserEntity> users = userRepository.findAll();
-        List<UserResponse> response = new ArrayList<>();
+        List<UserRes> response = new ArrayList<>();
         for (UserEntity user: users) {
-            UserResponse userResponse = new UserResponse();
-            BeanUtils.copyProperties(user, userResponse);
-            userResponse.setRoleName(user.getRole().getName());
-            response.add(userResponse);
+            UserRes userRes = new UserRes();
+            BeanUtils.copyProperties(user, userRes);
+            userRes.setRoleName(user.getRole().getName());
+            response.add(userRes);
         }
         return response;
     }
 
     @Override
-    public ClientResponse createClient(ClientRequest clientRequest) {
+    public List<ClientRes> getAllClient() {
+        List<ClientEntity> clients = clientRepository.findAll();
+        List<ClientRes> response = new ArrayList<>();
+        for (ClientEntity client: clients) {
+            ClientRes clientRes = new ClientRes();
+            clientRes.setClientId(client.getClientId());
+            clientRes.setFullName(client.getUser().getFullName());
+            response.add(clientRes);
+        }
+        return response;
+    }
+
+    @Override
+    public CreateClientRes createClient(ClientReq clientReq) {
         UserEntity userEntity = new UserEntity();
         RoleEntity roleEntity = new RoleEntity();
         ClientEntity clientEntity = new ClientEntity();
         ClientDTO clientDTO = new ClientDTO();
-        ClientResponse response = new ClientResponse();
+        CreateClientRes response = new CreateClientRes();
 
-        roleEntity.setRoleId(clientRequest.getRoleId());
-        BeanUtils.copyProperties(clientRequest, userEntity);
-        userEntity.setPassword(bCryptPasswordEncoder.encode(clientRequest.getPassword()));
+        roleEntity.setRoleId(clientReq.getRoleId());
+        BeanUtils.copyProperties(clientReq, userEntity);
+        userEntity.setPassword(bCryptPasswordEncoder.encode(clientReq.getPassword()));
         userEntity.setRole(roleEntity);
         userRepository.save(userEntity);
         BeanUtils.copyProperties(userEntity, clientDTO);
 
-        BeanUtils.copyProperties(clientRequest, clientEntity);
+        BeanUtils.copyProperties(clientReq, clientEntity);
         clientEntity.setUser(userEntity);
         clientRepository.save(clientEntity);
         BeanUtils.copyProperties(clientEntity, clientDTO);
@@ -77,21 +91,21 @@ public class UserService implements UserServiceInterface {
     }
 
     @Override
-    public DelegateResponse createDelegate(DelegateRequest delegateRequest) {
+    public CreateDelegateRes createDelegate(DelegateReq delegateReq) {
         UserEntity userEntity = new UserEntity();
         RoleEntity roleEntity = new RoleEntity();
         DelegateEntity delegateEntity = new DelegateEntity();
         DelegateDTO delegateDTO = new DelegateDTO();
-        DelegateResponse response = new DelegateResponse();
+        CreateDelegateRes response = new CreateDelegateRes();
 
-        roleEntity.setRoleId(delegateRequest.getRoleId());
-        BeanUtils.copyProperties(delegateRequest, userEntity);
-        userEntity.setPassword(bCryptPasswordEncoder.encode(delegateRequest.getPassword()));
+        roleEntity.setRoleId(delegateReq.getRoleId());
+        BeanUtils.copyProperties(delegateReq, userEntity);
+        userEntity.setPassword(bCryptPasswordEncoder.encode(delegateReq.getPassword()));
         userEntity.setRole(roleEntity);
         userRepository.save(userEntity);
         BeanUtils.copyProperties(userEntity, delegateDTO);
 
-        BeanUtils.copyProperties(delegateRequest, delegateEntity);
+        BeanUtils.copyProperties(delegateReq, delegateEntity);
         delegateEntity.setUser(userEntity);
         delegateRepository.save(delegateEntity);
         BeanUtils.copyProperties(delegateEntity, delegateDTO);

@@ -1,6 +1,6 @@
-package pe.edu.utp.olimpiadas_aqp.models.requests;
+package pe.edu.utp.olimpiadas_aqp.models.requests.user.client;
 
-public class ClientRequest {
+public class ClientReq {
     private String fullName;
     private String email;
     private String password;

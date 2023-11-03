@@ -6,11 +6,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import pe.edu.utp.olimpiadas_aqp.models.requests.ClientRequest;
-import pe.edu.utp.olimpiadas_aqp.models.requests.DelegateRequest;
-import pe.edu.utp.olimpiadas_aqp.models.responses.ClientResponse;
-import pe.edu.utp.olimpiadas_aqp.models.responses.DelegateResponse;
-import pe.edu.utp.olimpiadas_aqp.models.responses.UserResponse;
+import pe.edu.utp.olimpiadas_aqp.models.requests.user.client.ClientReq;
+import pe.edu.utp.olimpiadas_aqp.models.requests.user.delegate.DelegateReq;
+import pe.edu.utp.olimpiadas_aqp.models.responses.user.client.ClientRes;
+import pe.edu.utp.olimpiadas_aqp.models.responses.user.client.CreateClientRes;
+import pe.edu.utp.olimpiadas_aqp.models.responses.user.delegate.CreateDelegateRes;
+import pe.edu.utp.olimpiadas_aqp.models.responses.user.UserRes;
 import pe.edu.utp.olimpiadas_aqp.services.UserServiceInterface;
 
 import java.util.List;
@@ -23,17 +24,22 @@ public class UserController {
     UserServiceInterface userService;
 
     @RequestMapping(value = "all", method = RequestMethod.GET)
-    public List<UserResponse> getAll() {
+    public List<UserRes> getAll() {
         return userService.getAll();
     }
 
+    @RequestMapping(value = "client/all", method = RequestMethod.GET)
+    public List<ClientRes> getAllClient() {
+        return userService.getAllClient();
+    }
+
     @RequestMapping(value = "create/client", method = RequestMethod.POST)
-    public ClientResponse createClient(@RequestBody ClientRequest clientRequest) {
-        return userService.createClient(clientRequest);
+    public CreateClientRes createClient(@RequestBody ClientReq clientReq) {
+        return userService.createClient(clientReq);
     }
 
     @RequestMapping(value = "create/delegate", method = RequestMethod.POST)
-    public DelegateResponse createDelegate(@RequestBody DelegateRequest delegateRequest) {
-        return userService.createDelegate(delegateRequest);
+    public CreateDelegateRes createDelegate(@RequestBody DelegateReq delegateReq) {
+        return userService.createDelegate(delegateReq);
     }
 }

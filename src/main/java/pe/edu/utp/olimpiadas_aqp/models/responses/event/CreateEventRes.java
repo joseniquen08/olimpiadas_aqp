@@ -1,20 +1,11 @@
-package pe.edu.utp.olimpiadas_aqp.models.responses;
+package pe.edu.utp.olimpiadas_aqp.models.responses.event;
 
 import pe.edu.utp.olimpiadas_aqp.dto.UserDTO;
 
-public class AuthResponse {
-    private String token;
+public class CreateEventRes {
     private int status;
     private String message;
-    private UserDTO user;
-
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
-    }
+    private GetEventRes event;
 
     public int getStatus() {
         return status;
@@ -32,11 +23,11 @@ public class AuthResponse {
         this.message = message;
     }
 
-    public UserDTO getUser() {
-        return user;
+    public GetEventRes getEvent() {
+        return event;
     }
 
-    public void setUser(UserDTO user) {
-        this.user = user;
+    public void setEvent(GetEventRes event) {
+        this.event = event;
     }
 }

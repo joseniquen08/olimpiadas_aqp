@@ -1,6 +1,6 @@
-package pe.edu.utp.olimpiadas_aqp.models.responses;
+package pe.edu.utp.olimpiadas_aqp.models.responses.user;
 
-public class UserResponse {
+public class UserRes {
     private Long userId;
     private String email;
     private String fullName;

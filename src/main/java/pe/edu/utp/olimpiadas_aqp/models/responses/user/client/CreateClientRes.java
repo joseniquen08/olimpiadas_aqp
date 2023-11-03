@@ -1,12 +1,11 @@
-package pe.edu.utp.olimpiadas_aqp.models.responses;
+package pe.edu.utp.olimpiadas_aqp.models.responses.user.client;
 
 import pe.edu.utp.olimpiadas_aqp.dto.ClientDTO;
-import pe.edu.utp.olimpiadas_aqp.dto.DelegateDTO;
 
-public class DelegateResponse {
+public class CreateClientRes {
     private String message;
     private int status;
-    private DelegateDTO user;
+    private ClientDTO user;
 
     public String getMessage() {
         return message;
@@ -24,11 +23,11 @@ public class DelegateResponse {
         this.status = status;
     }
 
-    public DelegateDTO getUser() {
+    public ClientDTO getUser() {
         return user;
     }
 
-    public void setUser(DelegateDTO user) {
+    public void setUser(ClientDTO user) {
         this.user = user;
     }
 }

@@ -1,10 +1,10 @@
 package pe.edu.utp.olimpiadas_aqp.entities;
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.CreationTimestamp;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.Set;
 
 @Entity(name = "event")
 public class EventEntity implements Serializable {
@@ -29,9 +29,8 @@ public class EventEntity implements Serializable {
     @JoinColumn(name = "client_id", referencedColumnName = "client_id", nullable = false)
     private ClientEntity client;
 
-    @ManyToOne
-    @JoinColumn(name = "delegate_id", referencedColumnName = "delegate_id", nullable = false)
-    private DelegateEntity delegate;
+    @OneToMany(mappedBy = "event")
+    private Set<DelegateEventEntity> delegateEventEntitySet;
 
     @Column(name = "created_at", nullable = false, insertable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private Date createdAt;
@@ -76,12 +75,12 @@ public class EventEntity implements Serializable {
         this.client = client;
     }
 
-    public DelegateEntity getDelegate() {
-        return delegate;
+    public Set<DelegateEventEntity> getDelegateEventEntitySet() {
+        return delegateEventEntitySet;
     }
 
-    public void setDelegate(DelegateEntity delegate) {
-        this.delegate = delegate;
+    public void setDelegateEventEntitySet(Set<DelegateEventEntity> delegateEventEntitySet) {
+        this.delegateEventEntitySet = delegateEventEntitySet;
     }
 
     public Date getCreatedAt() {

@@ -1,6 +1,6 @@
-package pe.edu.utp.olimpiadas_aqp.models.requests;
+package pe.edu.utp.olimpiadas_aqp.models.requests.user.delegate;
 
-public class DelegateRequest {
+public class DelegateReq {
     private String fullName;
     private String email;
     private String password;

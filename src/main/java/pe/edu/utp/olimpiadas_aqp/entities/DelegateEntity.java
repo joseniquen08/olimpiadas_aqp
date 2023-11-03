@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.Set;
 
 @Entity(name = "delegate")
 public class DelegateEntity implements Serializable {
@@ -24,6 +25,9 @@ public class DelegateEntity implements Serializable {
     @OneToOne
     @JoinColumn(name = "user_id", referencedColumnName = "user_id", nullable = false)
     private UserEntity user;
+
+    @OneToMany(mappedBy = "delegate")
+    private Set<DelegateEventEntity> delegateEventEntitySet;
 
     @Column(name = "created_at", nullable = false, insertable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private Date createdAt;
@@ -58,6 +62,14 @@ public class DelegateEntity implements Serializable {
 
     public void setUser(UserEntity user) {
         this.user = user;
+    }
+
+    public Set<DelegateEventEntity> getDelegateEventEntitySet() {
+        return delegateEventEntitySet;
+    }
+
+    public void setDelegateEventEntitySet(Set<DelegateEventEntity> delegateEventEntitySet) {
+        this.delegateEventEntitySet = delegateEventEntitySet;
     }
 
     public Date getCreatedAt() {

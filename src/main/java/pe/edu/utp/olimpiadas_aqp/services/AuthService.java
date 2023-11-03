@@ -7,8 +7,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import pe.edu.utp.olimpiadas_aqp.dto.UserDTO;
 import pe.edu.utp.olimpiadas_aqp.entities.UserEntity;
-import pe.edu.utp.olimpiadas_aqp.models.requests.AuthRequest;
-import pe.edu.utp.olimpiadas_aqp.models.responses.AuthResponse;
+import pe.edu.utp.olimpiadas_aqp.models.requests.auth.LoginReq;
+import pe.edu.utp.olimpiadas_aqp.models.responses.auth.LoginRes;
 import pe.edu.utp.olimpiadas_aqp.repositories.UserRepository;
 import pe.edu.utp.olimpiadas_aqp.security.SecurityConstants;
 
@@ -25,14 +25,14 @@ public class AuthService implements AuthServiceInterface {
     BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
-    public AuthResponse login(AuthRequest authRequest) {
-        UserEntity userEntity = userRepository.findByEmail(authRequest.getEmail());
-        AuthResponse response = new AuthResponse();
+    public LoginRes login(LoginReq loginReq) {
+        UserEntity userEntity = userRepository.findByEmail(loginReq.getEmail());
+        LoginRes response = new LoginRes();
         if (userEntity == null) {
             response.setStatus(400);
             response.setMessage("El usuario no existe.");
         } else {
-            if (bCryptPasswordEncoder.matches(authRequest.getPassword(), userEntity.getPassword())) {
+            if (bCryptPasswordEncoder.matches(loginReq.getPassword(), userEntity.getPassword())) {
                 response.setStatus(200);
                 response.setMessage("Correcto.");
                 UserDTO userDTO = new UserDTO();

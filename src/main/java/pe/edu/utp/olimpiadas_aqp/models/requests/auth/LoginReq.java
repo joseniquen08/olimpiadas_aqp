@@ -1,6 +1,6 @@
-package pe.edu.utp.olimpiadas_aqp.models.requests;
+package pe.edu.utp.olimpiadas_aqp.models.requests.auth;
 
-public class AuthRequest {
+public class LoginReq {
     private String email;
     private String password;
 
