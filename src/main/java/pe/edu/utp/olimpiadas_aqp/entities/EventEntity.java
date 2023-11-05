@@ -31,10 +31,10 @@ public class EventEntity implements Serializable {
     @JoinColumn(name = "client_id", referencedColumnName = "client_id", nullable = false)
     private ClientEntity client;
 
-    @OneToMany(mappedBy = "event")
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
     private Set<DelegateEventEntity> delegateEventEntitySet;
 
-    @OneToMany(mappedBy = "event")
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
     private Set<SportEventEntity> sportEventEntitySet;
 
     @Column(name = "created_at", nullable = false, insertable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")

@@ -24,7 +24,7 @@ public class SportEntity implements Serializable {
     @Column(nullable = false, columnDefinition = "TEXT")
     private String description;
 
-    @OneToMany(mappedBy = "sport")
+    @OneToMany(mappedBy = "sport", cascade = CascadeType.ALL)
     private Set<SportEventEntity> sportEventEntitySet;
 
     @Column(name = "created_at", nullable = false, insertable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")

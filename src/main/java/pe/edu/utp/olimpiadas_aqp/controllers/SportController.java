@@ -1,14 +1,10 @@
 package pe.edu.utp.olimpiadas_aqp.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-import pe.edu.utp.olimpiadas_aqp.models.requests.event.EventReq;
+import org.springframework.web.bind.annotation.*;
 import pe.edu.utp.olimpiadas_aqp.models.requests.sport.SportReq;
-import pe.edu.utp.olimpiadas_aqp.models.responses.event.CreateEventRes;
 import pe.edu.utp.olimpiadas_aqp.models.responses.sport.CreateSportRes;
+import pe.edu.utp.olimpiadas_aqp.models.responses.sport.EditSportRes;
 import pe.edu.utp.olimpiadas_aqp.models.responses.sport.GetSportRes;
 import pe.edu.utp.olimpiadas_aqp.services.SportServiceInterface;
 
@@ -29,5 +25,10 @@ public class SportController {
     @RequestMapping(value = "create", method = RequestMethod.POST)
     public CreateSportRes create(@RequestBody SportReq sportReq) {
         return sportService.createEvent(sportReq);
+    }
+
+    @RequestMapping(value = "edit/{id}", method = RequestMethod.PUT)
+    public EditSportRes editById(@PathVariable("id") Long sportId, @RequestBody SportReq sportReq) {
+        return sportService.editSportById(sportId, sportReq);
     }
 }

@@ -17,11 +17,11 @@ public class DelegateEventEntity implements Serializable {
     @Column(name = "delegate_event_id", nullable = false)
     private Long delegateEventId;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "delegate_id")
     private DelegateEntity delegate;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "event_id")
     private EventEntity event;
 

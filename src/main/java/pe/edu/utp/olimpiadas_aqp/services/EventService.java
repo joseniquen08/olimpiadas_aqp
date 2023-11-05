@@ -5,8 +5,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pe.edu.utp.olimpiadas_aqp.entities.ClientEntity;
 import pe.edu.utp.olimpiadas_aqp.entities.EventEntity;
+import pe.edu.utp.olimpiadas_aqp.models.requests.event.ChangeEventStatusReq;
 import pe.edu.utp.olimpiadas_aqp.models.requests.event.EventReq;
 import pe.edu.utp.olimpiadas_aqp.models.responses.event.CreateEventRes;
+import pe.edu.utp.olimpiadas_aqp.models.responses.event.EditEventRes;
 import pe.edu.utp.olimpiadas_aqp.models.responses.event.GetEventRes;
 import pe.edu.utp.olimpiadas_aqp.repositories.EventRepository;
 
@@ -50,5 +52,38 @@ public class EventService implements EventServiceInterface {
         return response;
     }
 
-    // TODO creacion de edit event
+    @Override
+    public EditEventRes editEventById(Long eventId, EventReq eventReq) {
+        EditEventRes response = new EditEventRes();
+        int isCorrect = eventRepository.editById(
+                eventId,
+                eventReq.getName(),
+                eventReq.getStartDate(),
+                eventReq.getStatus(),
+                eventReq.getClientId());
+        if (isCorrect == 1) {
+            response.setStatus(204);
+            response.setMessage("Editado correctamente.");
+        } else {
+            response.setStatus(400);
+            response.setMessage("Error en la edición.");
+        }
+        return response;
+    }
+
+    @Override
+    public EditEventRes editEventStatusById(Long eventId, ChangeEventStatusReq statusReq) {
+        EditEventRes response = new EditEventRes();
+        int isCorrect = eventRepository.changeStatusById(
+                eventId,
+                statusReq.getStatus());
+        if (isCorrect == 1) {
+            response.setStatus(204);
+            response.setMessage("Editado correctamente.");
+        } else {
+            response.setStatus(400);
+            response.setMessage("Error en la edición.");
+        }
+        return response;
+    }
 }

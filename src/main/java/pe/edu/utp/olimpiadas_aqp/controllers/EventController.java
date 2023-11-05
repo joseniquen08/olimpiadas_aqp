@@ -1,13 +1,12 @@
 package pe.edu.utp.olimpiadas_aqp.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import pe.edu.utp.olimpiadas_aqp.models.requests.event.ChangeEventStatusReq;
 import pe.edu.utp.olimpiadas_aqp.models.requests.event.EventReq;
 import pe.edu.utp.olimpiadas_aqp.models.requests.user.client.ClientReq;
 import pe.edu.utp.olimpiadas_aqp.models.responses.event.CreateEventRes;
+import pe.edu.utp.olimpiadas_aqp.models.responses.event.EditEventRes;
 import pe.edu.utp.olimpiadas_aqp.models.responses.event.GetEventRes;
 import pe.edu.utp.olimpiadas_aqp.services.EventServiceInterface;
 
@@ -28,5 +27,15 @@ public class EventController {
     @RequestMapping(value = "create", method = RequestMethod.POST)
     public CreateEventRes create(@RequestBody EventReq eventReq) {
         return eventService.createEvent(eventReq);
+    }
+
+    @RequestMapping(value = "edit/{id}", method = RequestMethod.PUT)
+    public EditEventRes editById(@PathVariable("id") Long eventId, @RequestBody EventReq eventReq) {
+        return eventService.editEventById(eventId, eventReq);
+    }
+
+    @RequestMapping(value = "edit/status/{id}", method = RequestMethod.PUT)
+    public EditEventRes editStatusById(@PathVariable("id") Long eventId, @RequestBody ChangeEventStatusReq statusReq) {
+        return eventService.editEventStatusById(eventId, statusReq);
     }
 }

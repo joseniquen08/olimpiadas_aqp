@@ -28,7 +28,7 @@ public class DelegateEntity implements Serializable {
     @JoinColumn(name = "user_id", referencedColumnName = "user_id", nullable = false)
     private UserEntity user;
 
-    @OneToMany(mappedBy = "delegate")
+    @OneToMany(mappedBy = "delegate", cascade = CascadeType.ALL)
     private Set<DelegateEventEntity> delegateEventEntitySet;
 
     @Column(name = "created_at", nullable = false, insertable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")

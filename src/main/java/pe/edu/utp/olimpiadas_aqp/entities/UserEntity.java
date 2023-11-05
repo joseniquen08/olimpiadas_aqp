@@ -26,7 +26,7 @@ public class UserEntity implements Serializable {
     @Column(nullable = false, length = 511)
     private String password;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "role_id", referencedColumnName = "role_id", nullable = false)
     private RoleEntity role;
 

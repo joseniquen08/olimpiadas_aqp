@@ -17,11 +17,11 @@ public class SportEventEntity implements Serializable {
     @Column(name = "sport_event_id", nullable = false)
     private Long sportEventId;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sport_id")
     private SportEntity sport;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "event_id")
     private EventEntity event;
 

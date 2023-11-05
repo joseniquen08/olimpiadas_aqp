@@ -24,7 +24,7 @@ public class EventReq {
         this.startDate = startDate;
     }
 
-    public boolean isStatus() {
+    public boolean getStatus() {
         return status;
     }
 
