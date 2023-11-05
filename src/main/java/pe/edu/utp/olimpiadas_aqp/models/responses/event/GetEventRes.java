@@ -7,6 +7,7 @@ public class GetEventRes {
     private String name;
     private Date startDate;
     private boolean status;
+    private Long clientId;
     private String client;
 
     public Long getEventId() {
@@ -39,6 +40,14 @@ public class GetEventRes {
 
     public void setStatus(boolean status) {
         this.status = status;
+    }
+
+    public Long getClientId() {
+        return clientId;
+    }
+
+    public void setClientId(Long clientId) {
+        this.clientId = clientId;
     }
 
     public String getClient() {

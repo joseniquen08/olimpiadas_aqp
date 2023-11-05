@@ -2,6 +2,7 @@ package pe.edu.utp.olimpiadas_aqp.entities;
 
 import jakarta.persistence.*;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.Set;
@@ -9,6 +10,7 @@ import java.util.Set;
 @Entity(name = "delegate")
 public class DelegateEntity implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     @Id

@@ -26,6 +26,7 @@ public class EventService implements EventServiceInterface {
         for (EventEntity event: events) {
             GetEventRes eventRes = new GetEventRes();
             BeanUtils.copyProperties(event, eventRes);
+            eventRes.setClientId(event.getClient().getClientId());
             eventRes.setClient(event.getClient().getUser().getFullName());
             response.add(eventRes);
         }
@@ -48,4 +49,6 @@ public class EventService implements EventServiceInterface {
         response.setEvent(eventRes);
         return response;
     }
+
+    // TODO creacion de edit event
 }

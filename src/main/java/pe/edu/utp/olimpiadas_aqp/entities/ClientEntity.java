@@ -2,12 +2,14 @@ package pe.edu.utp.olimpiadas_aqp.entities;
 
 import jakarta.persistence.*;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.sql.Date;
 
 @Entity(name = "client")
 public class ClientEntity implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     @Id

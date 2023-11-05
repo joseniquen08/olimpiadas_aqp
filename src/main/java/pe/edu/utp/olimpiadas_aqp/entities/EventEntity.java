@@ -2,6 +2,7 @@ package pe.edu.utp.olimpiadas_aqp.entities;
 
 import jakarta.persistence.*;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.Set;
@@ -9,6 +10,7 @@ import java.util.Set;
 @Entity(name = "event")
 public class EventEntity implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -31,6 +33,9 @@ public class EventEntity implements Serializable {
 
     @OneToMany(mappedBy = "event")
     private Set<DelegateEventEntity> delegateEventEntitySet;
+
+    @OneToMany(mappedBy = "event")
+    private Set<SportEventEntity> sportEventEntitySet;
 
     @Column(name = "created_at", nullable = false, insertable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private Date createdAt;
@@ -81,6 +86,14 @@ public class EventEntity implements Serializable {
 
     public void setDelegateEventEntitySet(Set<DelegateEventEntity> delegateEventEntitySet) {
         this.delegateEventEntitySet = delegateEventEntitySet;
+    }
+
+    public Set<SportEventEntity> getSportEventEntitySet() {
+        return sportEventEntitySet;
+    }
+
+    public void setSportEventEntitySet(Set<SportEventEntity> sportEventEntitySet) {
+        this.sportEventEntitySet = sportEventEntitySet;
     }
 
     public Date getCreatedAt() {

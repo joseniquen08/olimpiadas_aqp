@@ -2,13 +2,14 @@ package pe.edu.utp.olimpiadas_aqp.entities;
 
 import jakarta.persistence.*;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.sql.Date;
 
 @Entity(name = "admin")
-@Table(indexes = { @Index(columnList = "dni", name = "index_dni", unique = true) })
 public class AdminEntity implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     @Id

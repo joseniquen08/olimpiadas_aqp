@@ -2,6 +2,7 @@ package pe.edu.utp.olimpiadas_aqp.entities;
 
 import jakarta.persistence.*;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ import java.util.List;
 @Entity(name = "role")
 public class RoleEntity implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     @Id
