@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import pe.edu.utp.olimpiadas_aqp.entities.SportEntity;
 import pe.edu.utp.olimpiadas_aqp.models.requests.sport.SportReq;
 import pe.edu.utp.olimpiadas_aqp.models.responses.sport.CreateSportRes;
+import pe.edu.utp.olimpiadas_aqp.models.responses.sport.DeleteSportRes;
 import pe.edu.utp.olimpiadas_aqp.models.responses.sport.EditSportRes;
 import pe.edu.utp.olimpiadas_aqp.models.responses.sport.GetSportRes;
 import pe.edu.utp.olimpiadas_aqp.repositories.SportRepository;
@@ -59,6 +60,15 @@ public class SportService implements SportServiceInterface {
             response.setStatus(400);
             response.setMessage("Error en la edición.");
         }
+        return response;
+    }
+
+    @Override
+    public DeleteSportRes deleteSportById(Long sportId) {
+        DeleteSportRes response = new DeleteSportRes();
+        sportRepository.deleteById(sportId);
+        response.setStatus(204);
+        response.setMessage("Eliminado correctamente.");
         return response;
     }
 }

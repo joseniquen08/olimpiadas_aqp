@@ -8,6 +8,7 @@ import pe.edu.utp.olimpiadas_aqp.entities.EventEntity;
 import pe.edu.utp.olimpiadas_aqp.models.requests.event.ChangeEventStatusReq;
 import pe.edu.utp.olimpiadas_aqp.models.requests.event.EventReq;
 import pe.edu.utp.olimpiadas_aqp.models.responses.event.CreateEventRes;
+import pe.edu.utp.olimpiadas_aqp.models.responses.event.DeleteEventRes;
 import pe.edu.utp.olimpiadas_aqp.models.responses.event.EditEventRes;
 import pe.edu.utp.olimpiadas_aqp.models.responses.event.GetEventRes;
 import pe.edu.utp.olimpiadas_aqp.repositories.EventRepository;
@@ -84,6 +85,15 @@ public class EventService implements EventServiceInterface {
             response.setStatus(400);
             response.setMessage("Error en la edición.");
         }
+        return response;
+    }
+
+    @Override
+    public DeleteEventRes deleteEventById(Long eventId) {
+        DeleteEventRes response = new DeleteEventRes();
+        eventRepository.deleteById(eventId);
+        response.setStatus(204);
+        response.setMessage("Eliminado correctamente.");
         return response;
     }
 }

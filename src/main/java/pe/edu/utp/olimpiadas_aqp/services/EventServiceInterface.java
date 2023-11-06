@@ -2,11 +2,10 @@ package pe.edu.utp.olimpiadas_aqp.services;
 
 import pe.edu.utp.olimpiadas_aqp.models.requests.event.ChangeEventStatusReq;
 import pe.edu.utp.olimpiadas_aqp.models.requests.event.EventReq;
-import pe.edu.utp.olimpiadas_aqp.models.requests.user.client.ClientReq;
 import pe.edu.utp.olimpiadas_aqp.models.responses.event.CreateEventRes;
+import pe.edu.utp.olimpiadas_aqp.models.responses.event.DeleteEventRes;
 import pe.edu.utp.olimpiadas_aqp.models.responses.event.EditEventRes;
 import pe.edu.utp.olimpiadas_aqp.models.responses.event.GetEventRes;
-import pe.edu.utp.olimpiadas_aqp.models.responses.user.client.CreateClientRes;
 
 import java.util.List;
 
@@ -15,4 +14,5 @@ public interface EventServiceInterface {
     CreateEventRes createEvent(EventReq eventReq);
     EditEventRes editEventById(Long eventId, EventReq eventReq);
     EditEventRes editEventStatusById(Long eventId, ChangeEventStatusReq statusReq);
+    DeleteEventRes deleteEventById(Long eventId);
 }

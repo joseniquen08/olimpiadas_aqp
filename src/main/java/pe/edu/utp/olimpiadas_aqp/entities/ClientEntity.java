@@ -17,7 +17,7 @@ public class ClientEntity implements Serializable {
     @Column(name = "client_id", nullable = false)
     private Long clientId;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private Long ruc;
 
     @Column(nullable = false)
@@ -26,7 +26,7 @@ public class ClientEntity implements Serializable {
     @Column(nullable = false)
     private Long phone;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.REMOVE, orphanRemoval = true)
     @JoinColumn(name = "user_id", referencedColumnName = "user_id", nullable = false)
     private UserEntity user;
 

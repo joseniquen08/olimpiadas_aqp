@@ -24,7 +24,7 @@ public class DelegateEntity implements Serializable {
     @Column(nullable = false)
     private Long phone;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.REMOVE, orphanRemoval = true)
     @JoinColumn(name = "user_id", referencedColumnName = "user_id", nullable = false)
     private UserEntity user;
 
