@@ -4,6 +4,7 @@ public class UserDTO {
     private long userId;
     private String fullName;
     private String email;
+    private String roleName;
 
     public long getUserId() {
         return userId;
@@ -27,5 +28,13 @@ public class UserDTO {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getRoleName() {
+        return roleName;
+    }
+
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
     }
 }

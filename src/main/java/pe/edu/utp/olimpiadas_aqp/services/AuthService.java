@@ -37,6 +37,7 @@ public class AuthService implements AuthServiceInterface {
                 response.setMessage("Correcto.");
                 UserDTO userDTO = new UserDTO();
                 BeanUtils.copyProperties(userEntity, userDTO);
+                userDTO.setRoleName(userEntity.getRole().getName());
                 response.setUser(userDTO);
                 Key key = Jwts.SIG.HS512.key().build();
                 String token = Jwts.builder()
