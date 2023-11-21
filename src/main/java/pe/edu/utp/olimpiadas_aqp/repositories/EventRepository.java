@@ -16,6 +16,10 @@ public interface EventRepository extends JpaRepository<EventEntity, Long> {
     @Modifying
     @Query("update event e set e.name = :name, e.startDate = :start_date, e.status = :status, e.client.clientId = :client_id where e.eventId = :event_id")
     int editById(
+
+
+
+    
             @Param("event_id") Long eventId,
             @Param("name") String name,
             @Param("start_date") Date startDate,
