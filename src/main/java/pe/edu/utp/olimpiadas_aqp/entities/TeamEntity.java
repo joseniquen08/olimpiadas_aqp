@@ -1,4 +1,5 @@
 package pe.edu.utp.olimpiadas_aqp.entities;
+
 import jakarta.persistence.*;
 
 import java.io.Serial;
@@ -7,9 +8,11 @@ import java.sql.Date;
 import java.util.Set;
 
 @Entity(name = "team")
-public class TeamEntity implements Serializable{
+public class TeamEntity implements Serializable {
+
     @Serial
     private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "team_id", nullable = false)
@@ -19,7 +22,7 @@ public class TeamEntity implements Serializable{
     private String name;
 
     @Column(nullable = false, columnDefinition = "TEXT")
-    private String urlImagen;
+    private String imageUrl;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id", referencedColumnName = "category_id", nullable = false)
@@ -44,15 +47,15 @@ public class TeamEntity implements Serializable{
         this.name = name;
     }
 
-    public String getUrlImagen() {
-        return this.urlImagen;
+    public String getImageUrl() {
+        return imageUrl;
     }
 
-    public void setUrlImagen(String urlImagen) {
-        this.urlImagen = urlImagen;
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
-   public CategoryEntity getCategory() {
+    public CategoryEntity getCategory() {
         return this.category;
     }
 

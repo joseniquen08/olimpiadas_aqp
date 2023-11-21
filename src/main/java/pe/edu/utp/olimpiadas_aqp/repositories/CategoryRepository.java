@@ -14,10 +14,9 @@ import java.sql.Date;
 public interface CategoryRepository  extends JpaRepository<CategoryEntity, Long> {
     @Transactional
     @Modifying
-    @Query("update category s set s.name = :name, s.description = :description where s.categoryId = :category_id")
+    @Query("update category c set c.name = :name, c.description = :description where c.categoryId = :category_id")
     int editById(
             @Param("category_id") Long categoryId,
             @Param("name") String name,
             @Param("description") String description);
-
 }

@@ -28,6 +28,4 @@ public class CreatePlayerRes {
     public void setPlayer(GetPlayerRes player) {
         this.player = player;
     }
-
-   
 }

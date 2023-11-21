@@ -1,10 +1,8 @@
 package pe.edu.utp.olimpiadas_aqp.models.requests.team;
 
-import java.sql.Date;
-
 public class TeamReq {
     private String name;
-    private String urlImagen;
+    private String imageUrl;
     private Long categoryId;
 
     public String getName() {
@@ -15,20 +13,19 @@ public class TeamReq {
         this.name = name;
     }
 
-    public String getUrlImagen() {
-        return this.urlImagen;
+    public String getImageUrl() {
+        return imageUrl;
     }
 
-    public void setUrlImagen(String urlImagen) {
-        this.urlImagen = urlImagen;
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
-       public Long getCategoryId() {
+    public Long getCategoryId() {
         return this.categoryId;
     }
 
     public void setCategoryId(Long categoryId) {
         this.categoryId = categoryId;
     }
-   
 }

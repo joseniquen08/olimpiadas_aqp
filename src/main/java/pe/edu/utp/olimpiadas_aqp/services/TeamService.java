@@ -1,4 +1,5 @@
 package pe.edu.utp.olimpiadas_aqp.services;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -56,7 +57,7 @@ public class TeamService implements TeamServiceInterface {
         int isCorrect = teamRepository.editById(
                 teamId,
                 teamReq.getName(),
-                teamReq.getUrlImagen());
+                teamReq.getImageUrl());
         if (isCorrect == 1) {
             response.setStatus(204);
             response.setMessage("Editado correctamente.");

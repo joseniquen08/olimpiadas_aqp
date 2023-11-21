@@ -10,7 +10,6 @@ import java.util.List;
 public interface PlayerServiceInterface {
     List<GetPlayerRes> getAll();
     CreatePlayerRes createEvent(PlayerReq playerReq);
-
     EditPlayerRes editPlayerById(Long playerId, PlayerReq playerReq);
     DeletePlayerRes deletePlayerById(Long playerId);
 }

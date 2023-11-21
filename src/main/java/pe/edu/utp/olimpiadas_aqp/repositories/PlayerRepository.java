@@ -15,14 +15,13 @@ import java.sql.Date;
 public interface PlayerRepository extends JpaRepository<PlayerEntity, Long> {
     @Transactional
     @Modifying
-    @Query("update player s set s.name = :name, s.gender = :gender, s.dateBirth = :dateBirth, s.size = :size, s.weight = :weight, s.numberTshirt = :numberTshirt where s.playerId = :player_id")
+    @Query("update player p set p.name = :name, p.gender = :gender, p.birthdate = :birthdate, p.height = :height, p.weight = :weight, p.jerseyNumber = :jerseyNumber where p.playerId = :player_id")
     int editById(
-            @Param("player_id") Long palyerId,
+            @Param("player_id") Long playerId,
             @Param("name") String name,
             @Param("gender") String gender,
-            @Param("dateBirth") Date dateBirth,
-            @Param("size") double size,
+            @Param("birthdate") Date birthdate,
+            @Param("height") double height,
             @Param("weight") double weight,
-            @Param("numberTshirt") int numberTshirt);
-    
+            @Param("jerseyNumber") int jerseyNumber);
 }

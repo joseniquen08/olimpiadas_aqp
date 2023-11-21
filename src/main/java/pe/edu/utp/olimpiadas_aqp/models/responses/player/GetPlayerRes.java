@@ -3,14 +3,13 @@ package pe.edu.utp.olimpiadas_aqp.models.responses.player;
 import java.sql.Date;
 
 public class GetPlayerRes {
-
     private Long playerId;
     private String name;
     private String gender;
-    private Date dateBirth;
-    private double size;
+    private Date birthdate;
+    private double height;
     private double weight;
-    private int numberTshirt;
+    private int jerseyNumber;
 
     public Long getPlayerId() {
         return this.playerId;
@@ -36,20 +35,20 @@ public class GetPlayerRes {
         this.gender = gender;
     }
 
-    public Date getDateBirth() {
-        return this.dateBirth;
+    public Date getBirthdate() {
+        return birthdate;
     }
 
-    public void setDateBirth(Date dateBirth) {
-        this.dateBirth = dateBirth;
+    public void setBirthdate(Date birthdate) {
+        this.birthdate = birthdate;
     }
 
-    public double getSize() {
-        return this.size;
+    public double getHeight() {
+        return height;
     }
 
-    public void setSize(double size) {
-        this.size = size;
+    public void setHeight(double height) {
+        this.height = height;
     }
 
     public double getWeight() {
@@ -60,12 +59,11 @@ public class GetPlayerRes {
         this.weight = weight;
     }
 
-    public int getNumberTshirt() {
-        return this.numberTshirt;
+    public int getJerseyNumber() {
+        return jerseyNumber;
     }
 
-    public void setNumberTshirt(int numberTshirt) {
-        this.numberTshirt = numberTshirt;
+    public void setJerseyNumber(int jerseyNumber) {
+        this.jerseyNumber = jerseyNumber;
     }
-
 }

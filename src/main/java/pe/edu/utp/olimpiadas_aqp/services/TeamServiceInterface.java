@@ -10,8 +10,6 @@ import java.util.List;
 public interface TeamServiceInterface {
     List<GetTeamRes> getAll();
     CreateTeamRes createEvent(TeamReq teamReq);
-
     EditTeamRes editTeamById(Long teamId, TeamReq teamReq);
     DeleteTeamRes deleteTeamById(Long teamId);
-
 }

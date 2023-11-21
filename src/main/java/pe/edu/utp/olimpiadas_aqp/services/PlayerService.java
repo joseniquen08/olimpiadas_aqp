@@ -1,4 +1,5 @@
 package pe.edu.utp.olimpiadas_aqp.services;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,7 @@ import java.util.List;
 
 @Service
 public class PlayerService implements PlayerServiceInterface{
+
     @Autowired
     PlayerRepository playerRepository;
 
@@ -55,10 +57,10 @@ public class PlayerService implements PlayerServiceInterface{
                 playerId,
                 playerReq.getName(),
                 playerReq.getGender(),
-                playerReq.getDateBirth(),
-                playerReq.getSize(),
+                playerReq.getBirthdate(),
+                playerReq.getHeight(),
                 playerReq.getWeight(),
-                playerReq.getNumberTshirt());
+                playerReq.getJerseyNumber());
         if (isCorrect == 1) {
             response.setStatus(204);
             response.setMessage("Editado correctamente.");

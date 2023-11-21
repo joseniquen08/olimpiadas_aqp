@@ -10,7 +10,6 @@ import java.util.List;
 public interface CategoryServiceInterface {
     List<GetCategoryRes> getAll();
     CreateCategoryRes createEvent(CategoryReq categoryReq);
-
     EditCategoryRes editCategoryById(Long categoryId, CategoryReq categoryReq);
     DeleteCategoryRes deleteCategoryById(Long categoryId);
 }

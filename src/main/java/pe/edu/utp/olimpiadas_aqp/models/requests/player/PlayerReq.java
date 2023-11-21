@@ -5,12 +5,11 @@ import java.sql.Date;
 public class PlayerReq {
     private String name;
     private String gender;
-    private Date dateBirth;
-    private double size;
+    private Date birthdate;
+    private double height;
     private double weight;
-    private int numberTshirt;
+    private int jerseyNumber;
     private Long teamId;
-
 
     public String getName() {
         return this.name;
@@ -28,45 +27,43 @@ public class PlayerReq {
         this.gender = gender;
     }
 
-    public Date getDateBirth() {
-        return this.dateBirth;
+    public Date getBirthdate() {
+        return birthdate;
     }
 
-    public void setDateBirth(Date dateBirth) {
-        this.dateBirth = dateBirth;
+    public void setBirthdate(Date birthdate) {
+        this.birthdate = birthdate;
     }
 
-    public double getSize() {
-        return this.size;
+    public double getHeight() {
+        return height;
     }
 
-    public void setSize(double size) {
-        this.size = size;
+    public void setHeight(double height) {
+        this.height = height;
     }
 
     public double getWeight() {
-        return this.weight;
+        return weight;
     }
 
     public void setWeight(double weight) {
         this.weight = weight;
     }
 
-    public int getNumberTshirt() {
-        return this.numberTshirt;
+    public int getJerseyNumber() {
+        return jerseyNumber;
     }
 
-    public void setNumberTshirt(int numberTshirt) {
-        this.numberTshirt = numberTshirt;
+    public void setJerseyNumber(int jerseyNumber) {
+        this.jerseyNumber = jerseyNumber;
     }
 
-     public Long getTeamId() {
+    public Long getTeamId() {
         return this.teamId;
     }
 
     public void setTeamId(Long teamId) {
         this.teamId = teamId;
     }
-
-
 }

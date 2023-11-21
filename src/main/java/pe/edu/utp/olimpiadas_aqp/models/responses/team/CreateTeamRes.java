@@ -28,6 +28,4 @@ public class CreateTeamRes {
     public void setTeam(GetTeamRes team) {
         this.team = team;
     }
-
-   
 }

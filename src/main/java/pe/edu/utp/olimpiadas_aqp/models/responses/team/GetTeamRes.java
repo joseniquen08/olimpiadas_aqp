@@ -3,7 +3,7 @@ package pe.edu.utp.olimpiadas_aqp.models.responses.team;
 public class GetTeamRes {
     private Long teamId;
     private String name;
-    private String urlImagen;
+    private String imageUrl;
 
     public Long getTeamId() {
         return this.teamId;
@@ -21,12 +21,11 @@ public class GetTeamRes {
         this.name = name;
     }
 
-    public String getUrlImagen() {
-        return this.urlImagen;
+    public String getImageUrl() {
+        return imageUrl;
     }
 
-    public void setUrlImagen(String urlImagen) {
-        this.urlImagen = urlImagen;
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
-
 }

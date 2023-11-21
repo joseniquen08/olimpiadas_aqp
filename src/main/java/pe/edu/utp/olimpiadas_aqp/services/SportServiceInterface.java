@@ -13,7 +13,6 @@ import java.util.List;
 public interface SportServiceInterface {
     List<GetSportRes> getAll();
     CreateSportRes createEvent(SportReq sportReq);
-
     EditSportRes editSportById(Long sportId, SportReq sportReq);
     DeleteSportRes deleteSportById(Long sportId);
 }

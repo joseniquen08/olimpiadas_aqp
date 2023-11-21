@@ -9,7 +9,7 @@ import java.util.Set;
 
 @Entity(name = "player")
 public class PlayerEntity implements Serializable {
-    
+
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -25,16 +25,16 @@ public class PlayerEntity implements Serializable {
     private String gender;
 
     @Column(nullable = false) 
-    private Date dateBirth;
+    private Date birthdate;
 
     @Column(nullable = false)
-    private double size;
+    private double height;
 
     @Column(nullable = false)
     private double weight;
 
     @Column(nullable = false)
-    private int numberTshirt;
+    private int jerseyNumber;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "team_id", referencedColumnName = "team_id", nullable = false)
@@ -68,20 +68,20 @@ public class PlayerEntity implements Serializable {
         this.gender = gender;
     }
 
-    public Date getDateBirth() {
-        return this.dateBirth;
+    public Date getBirthdate() {
+        return birthdate;
     }
 
-    public void setDateBirth(Date dateBirth) {
-        this.dateBirth = dateBirth;
+    public void setBirthdate(Date birthdate) {
+        this.birthdate = birthdate;
     }
 
-    public double getSize() {
-        return this.size;
+    public double getHeight() {
+        return height;
     }
 
-    public void setSize(double size) {
-        this.size = size;
+    public void setHeight(double height) {
+        this.height = height;
     }
 
     public double getWeight() {
@@ -92,12 +92,12 @@ public class PlayerEntity implements Serializable {
         this.weight = weight;
     }
 
-    public int getNumberTshirt() {
-        return this.numberTshirt;
+    public int getJerseyNumber() {
+        return jerseyNumber;
     }
 
-    public void setNumberTshirt(int numberTshirt) {
-        this.numberTshirt = numberTshirt;
+    public void setJerseyNumber(int jerseyNumber) {
+        this.jerseyNumber = jerseyNumber;
     }
 
     public TeamEntity getTeam() {
@@ -115,7 +115,4 @@ public class PlayerEntity implements Serializable {
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
-
-
-
 }

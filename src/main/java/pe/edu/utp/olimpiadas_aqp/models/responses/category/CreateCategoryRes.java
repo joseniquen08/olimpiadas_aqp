@@ -28,9 +28,4 @@ public class CreateCategoryRes {
     public void setCategory(GetCategoryRes category) {
         this.category = category;
     }
-
- 
-
-
-   
 }

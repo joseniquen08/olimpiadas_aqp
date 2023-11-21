@@ -1,12 +1,9 @@
 package pe.edu.utp.olimpiadas_aqp.models.requests.category;
 
-import java.sql.Date;
-
 public class CategoryReq {
     private String name;
     private String description;
     private Long sportId;
-
 
     public String getName() {
         return name;
@@ -24,7 +21,7 @@ public class CategoryReq {
         this.description = description;
     }
 
-     public Long getSportId() {
+    public Long getSportId() {
         return this.sportId;
     }
 
