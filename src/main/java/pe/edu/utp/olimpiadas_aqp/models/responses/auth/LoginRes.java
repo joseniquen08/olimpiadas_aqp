@@ -1,12 +1,12 @@
 package pe.edu.utp.olimpiadas_aqp.models.responses.auth;
 
-import pe.edu.utp.olimpiadas_aqp.dto.UserDTO;
+import pe.edu.utp.olimpiadas_aqp.models.responses.user.GetUserRes;
 
 public class LoginRes {
     private String token;
     private int status;
     private String message;
-    private UserDTO user;
+    private GetUserRes user;
 
     public String getToken() {
         return token;
@@ -32,11 +32,11 @@ public class LoginRes {
         this.message = message;
     }
 
-    public UserDTO getUser() {
+    public GetUserRes getUser() {
         return user;
     }
 
-    public void setUser(UserDTO user) {
+    public void setUser(GetUserRes user) {
         this.user = user;
     }
 }

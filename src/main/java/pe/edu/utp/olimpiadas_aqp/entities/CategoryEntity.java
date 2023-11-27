@@ -24,8 +24,8 @@ public class CategoryEntity implements Serializable{
     private String description;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "sport_id", referencedColumnName = "sport_id", nullable = false)
-    private SportEntity sport;
+    @JoinColumn(name = "sport_event_id", referencedColumnName = "sport_event_id", nullable = false)
+    private SportEventEntity sportEvent;
 
     @Column(name = "created_at", nullable = false, insertable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private Date createdAt;
@@ -54,12 +54,12 @@ public class CategoryEntity implements Serializable{
         this.description = description;
     }
 
-    public SportEntity getSport() {
-        return this.sport;
+    public SportEventEntity getSportEvent() {
+        return sportEvent;
     }
 
-    public void setSport(SportEntity sport) {
-        this.sport = sport;
+    public void setSportEvent(SportEventEntity sportEvent) {
+        this.sportEvent = sportEvent;
     }
 
     public Date getCreatedAt() {

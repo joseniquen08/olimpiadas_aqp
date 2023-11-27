@@ -11,7 +11,9 @@ import pe.edu.utp.olimpiadas_aqp.models.responses.user.client.CreateClientRes;
 import pe.edu.utp.olimpiadas_aqp.models.responses.user.client.EditClientRes;
 import pe.edu.utp.olimpiadas_aqp.models.responses.user.delegate.CreateDelegateRes;
 import pe.edu.utp.olimpiadas_aqp.models.responses.user.UserRes;
+import pe.edu.utp.olimpiadas_aqp.models.responses.user.delegate.DelegateRes;
 import pe.edu.utp.olimpiadas_aqp.models.responses.user.delegate.EditDelegateRes;
+import pe.edu.utp.olimpiadas_aqp.models.responses.user.delegate.GetDelegatesByEventIdRes;
 import pe.edu.utp.olimpiadas_aqp.services.UserServiceInterface;
 
 import java.util.List;
@@ -31,6 +33,16 @@ public class UserController {
     @RequestMapping(value = "client/all", method = RequestMethod.GET)
     public List<ClientRes> getAllClient() {
         return userService.getAllClient();
+    }
+
+    @RequestMapping(value = "delegate/all", method = RequestMethod.GET)
+    public List<DelegateRes> getAllDelegate() {
+        return userService.getAllDelegate();
+    }
+
+    @RequestMapping(value = "delegate/all/event/{id}", method = RequestMethod.GET)
+    public GetDelegatesByEventIdRes getDelegatesByEventId(@PathVariable("id") Long eventId) {
+        return userService.getDelegatesByEventId(eventId);
     }
 
     @RequestMapping(value = "create/client", method = RequestMethod.POST)

@@ -1,7 +1,5 @@
 package pe.edu.utp.olimpiadas_aqp.models.responses.event;
 
-import pe.edu.utp.olimpiadas_aqp.dto.UserDTO;
-
 public class CreateEventRes {
     private int status;
     private String message;

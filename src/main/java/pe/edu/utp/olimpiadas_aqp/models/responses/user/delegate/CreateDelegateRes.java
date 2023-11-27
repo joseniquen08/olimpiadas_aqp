@@ -1,11 +1,12 @@
 package pe.edu.utp.olimpiadas_aqp.models.responses.user.delegate;
 
-import pe.edu.utp.olimpiadas_aqp.dto.DelegateDTO;
-
 public class CreateDelegateRes {
     private String message;
     private int status;
-    private DelegateDTO user;
+    private String fullName;
+    private String email;
+    private Long dni;
+    private Long phone;
 
     public String getMessage() {
         return message;
@@ -23,11 +24,35 @@ public class CreateDelegateRes {
         this.status = status;
     }
 
-    public DelegateDTO getUser() {
-        return user;
+    public String getFullName() {
+        return fullName;
     }
 
-    public void setUser(DelegateDTO user) {
-        this.user = user;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Long getDni() {
+        return dni;
+    }
+
+    public void setDni(Long dni) {
+        this.dni = dni;
+    }
+
+    public Long getPhone() {
+        return phone;
+    }
+
+    public void setPhone(Long phone) {
+        this.phone = phone;
     }
 }

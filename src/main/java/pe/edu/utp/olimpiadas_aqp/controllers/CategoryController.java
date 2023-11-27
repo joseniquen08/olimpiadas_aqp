@@ -3,11 +3,7 @@ package pe.edu.utp.olimpiadas_aqp.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import pe.edu.utp.olimpiadas_aqp.models.requests.category.CategoryReq;
-import pe.edu.utp.olimpiadas_aqp.models.responses.event.DeleteEventRes;
-import pe.edu.utp.olimpiadas_aqp.models.responses.category.CreateCategoryRes;
-import pe.edu.utp.olimpiadas_aqp.models.responses.category.DeleteCategoryRes;
-import pe.edu.utp.olimpiadas_aqp.models.responses.category.EditCategoryRes;
-import pe.edu.utp.olimpiadas_aqp.models.responses.category.GetCategoryRes;
+import pe.edu.utp.olimpiadas_aqp.models.responses.category.*;
 import pe.edu.utp.olimpiadas_aqp.services.CategoryServiceInterface;
 
 import java.util.List;
@@ -24,9 +20,14 @@ public class CategoryController {
         return categoryService.getAll();
     }
 
+    @RequestMapping(value = "all/sport_event/{id}", method = RequestMethod.GET)
+    public GetCategoriesBySportEventIdRes getBySportEventId(@PathVariable("id") Long sportEventId) {
+        return categoryService.getBySportEventId(sportEventId);
+    }
+
     @RequestMapping(value = "create", method = RequestMethod.POST)
     public CreateCategoryRes create(@RequestBody CategoryReq categoryReq) {
-        return categoryService.createEvent(categoryReq);
+        return categoryService.createCategory(categoryReq);
     }
 
     @RequestMapping(value = "edit/{id}", method = RequestMethod.PUT)

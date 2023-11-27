@@ -9,6 +9,8 @@ public class GetEventRes {
     private boolean status;
     private Long clientId;
     private String client;
+    private String representative;
+    private Long phone;
 
     public Long getEventId() {
         return eventId;
@@ -56,5 +58,21 @@ public class GetEventRes {
 
     public void setClient(String client) {
         this.client = client;
+    }
+
+    public String getRepresentative() {
+        return representative;
+    }
+
+    public void setRepresentative(String representative) {
+        this.representative = representative;
+    }
+
+    public Long getPhone() {
+        return phone;
+    }
+
+    public void setPhone(Long phone) {
+        this.phone = phone;
     }
 }

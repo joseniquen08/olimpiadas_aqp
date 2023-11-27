@@ -2,19 +2,24 @@ package pe.edu.utp.olimpiadas_aqp.services;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import pe.edu.utp.olimpiadas_aqp.entities.ClientEntity;
-import pe.edu.utp.olimpiadas_aqp.entities.EventEntity;
+import pe.edu.utp.olimpiadas_aqp.entities.*;
+import pe.edu.utp.olimpiadas_aqp.models.requests.event.AssignDelegateToEventReq;
+import pe.edu.utp.olimpiadas_aqp.models.requests.event.AssignSportToEventReq;
 import pe.edu.utp.olimpiadas_aqp.models.requests.event.ChangeEventStatusReq;
 import pe.edu.utp.olimpiadas_aqp.models.requests.event.EventReq;
-import pe.edu.utp.olimpiadas_aqp.models.responses.event.CreateEventRes;
-import pe.edu.utp.olimpiadas_aqp.models.responses.event.DeleteEventRes;
-import pe.edu.utp.olimpiadas_aqp.models.responses.event.EditEventRes;
-import pe.edu.utp.olimpiadas_aqp.models.responses.event.GetEventRes;
+import pe.edu.utp.olimpiadas_aqp.models.responses.event.*;
+import pe.edu.utp.olimpiadas_aqp.repositories.ClientRepository;
+import pe.edu.utp.olimpiadas_aqp.repositories.DelegateEventRepository;
 import pe.edu.utp.olimpiadas_aqp.repositories.EventRepository;
+import pe.edu.utp.olimpiadas_aqp.repositories.SportEventRepository;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.Optional;
 
 @Service
 public class EventService implements EventServiceInterface {
@@ -22,15 +27,34 @@ public class EventService implements EventServiceInterface {
     @Autowired
     EventRepository eventRepository;
 
+    @Autowired
+    ClientRepository clientRepository;
+
+    @Autowired
+    SportEventRepository sportEventRepository;
+
+    @Autowired
+    DelegateEventRepository delegateEventRepository;
+
+    @Autowired
+    EmailServiceInterface emailService;
+
     @Override
     public List<GetEventRes> getAll() {
-        List<EventEntity> events = eventRepository.findAll();
+        List<Sort.Order> orders = new ArrayList<>();
+        Sort.Order statusOrder = new Sort.Order(Sort.Direction.DESC, "status");
+        Sort.Order startDateOrder = new Sort.Order(Sort.Direction.ASC, "startDate");
+        orders.add(statusOrder);
+        orders.add(startDateOrder);
+        List<EventEntity> events = eventRepository.findAll(Sort.by(orders));
         List<GetEventRes> response = new ArrayList<>();
         for (EventEntity event: events) {
             GetEventRes eventRes = new GetEventRes();
             BeanUtils.copyProperties(event, eventRes);
             eventRes.setClientId(event.getClient().getClientId());
             eventRes.setClient(event.getClient().getUser().getFullName());
+            eventRes.setRepresentative(event.getClient().getRepresentative());
+            eventRes.setPhone(event.getClient().getPhone());
             response.add(eventRes);
         }
         return response;
@@ -47,6 +71,20 @@ public class EventService implements EventServiceInterface {
         eventEntity.setClient(clientEntity);
         eventRepository.save(eventEntity);
         BeanUtils.copyProperties(eventEntity, eventRes);
+        Optional<ClientEntity> clientRes = clientRepository.findById(eventReq.getClientId());
+        if (clientRes.isPresent()) {
+            String email = clientRes.get().getUser().getEmail();
+            String clientName = clientRes.get().getUser().getFullName();
+            String subject = "Evento " + eventReq.getName();
+            Locale locale = new Locale("es", "PE");
+            DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.DEFAULT, locale);
+            String date = dateFormat.format(eventReq.getStartDate());
+            String text = "¡Hola, " + clientName + "!"
+                    +"\n\nTu evento *" + eventReq.getName() + "* ha sido creado satisfactoriamente."
+                    + "\n\nFecha de inicio: " + date
+                    + "\n\nAtte. Olimpiadas AQP";
+            emailService.sendSimpleMessage(email, subject, text);
+        }
         response.setMessage("Evento creado correctamente.");
         response.setStatus(201);
         response.setEvent(eventRes);
@@ -92,6 +130,56 @@ public class EventService implements EventServiceInterface {
     public DeleteEventRes deleteEventById(Long eventId) {
         DeleteEventRes response = new DeleteEventRes();
         eventRepository.deleteById(eventId);
+        response.setStatus(204);
+        response.setMessage("Eliminado correctamente.");
+        return response;
+    }
+
+    @Override
+    public AssignSportToEventRes assignSportToEvent(AssignSportToEventReq sportToEventReq) {
+        AssignSportToEventRes response = new AssignSportToEventRes();
+        SportEventEntity sportEventEntity = new SportEventEntity();
+        SportEntity sportEntity = new SportEntity();
+        EventEntity eventEntity = new EventEntity();
+        sportEntity.setSportId(sportToEventReq.getSportId());
+        eventEntity.setEventId(sportToEventReq.getEventId());
+        sportEventEntity.setSport(sportEntity);
+        sportEventEntity.setEvent(eventEntity);
+        sportEventRepository.save(sportEventEntity);
+        response.setMessage("Deporte asignado correctamente");
+        response.setStatus(201);
+        return response;
+    }
+
+    @Override
+    public AssignDelegateToEventRes assignDelegateToEvent(AssignDelegateToEventReq delegateToEventReq) {
+        AssignDelegateToEventRes response = new AssignDelegateToEventRes();
+        DelegateEventEntity delegateEventEntity = new DelegateEventEntity();
+        DelegateEntity delegateEntity = new DelegateEntity();
+        EventEntity eventEntity = new EventEntity();
+        delegateEntity.setDelegateId(delegateToEventReq.getDelegateId());
+        eventEntity.setEventId(delegateToEventReq.getEventId());
+        delegateEventEntity.setDelegate(delegateEntity);
+        delegateEventEntity.setEvent(eventEntity);
+        delegateEventRepository.save(delegateEventEntity);
+        response.setMessage("Delegado asignado correctamente");
+        response.setStatus(201);
+        return response;
+    }
+
+    @Override
+    public UnassignSportRes unassignSport(Long sportEventId) {
+        UnassignSportRes response = new UnassignSportRes();
+        sportEventRepository.deleteById(sportEventId);
+        response.setStatus(204);
+        response.setMessage("Eliminado correctamente.");
+        return response;
+    }
+
+    @Override
+    public UnassignDelegateRes unassignDelegate(Long delegateEventId) {
+        UnassignDelegateRes response = new UnassignDelegateRes();
+        delegateEventRepository.deleteById(delegateEventId);
         response.setStatus(204);
         response.setMessage("Eliminado correctamente.");
         return response;

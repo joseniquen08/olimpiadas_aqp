@@ -5,10 +5,10 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import pe.edu.utp.olimpiadas_aqp.dto.UserDTO;
 import pe.edu.utp.olimpiadas_aqp.entities.UserEntity;
 import pe.edu.utp.olimpiadas_aqp.models.requests.auth.LoginReq;
 import pe.edu.utp.olimpiadas_aqp.models.responses.auth.LoginRes;
+import pe.edu.utp.olimpiadas_aqp.models.responses.user.GetUserRes;
 import pe.edu.utp.olimpiadas_aqp.repositories.UserRepository;
 import pe.edu.utp.olimpiadas_aqp.security.SecurityConstants;
 
@@ -35,10 +35,10 @@ public class AuthService implements AuthServiceInterface {
             if (bCryptPasswordEncoder.matches(loginReq.getPassword(), userEntity.getPassword())) {
                 response.setStatus(200);
                 response.setMessage("Correcto.");
-                UserDTO userDTO = new UserDTO();
-                BeanUtils.copyProperties(userEntity, userDTO);
-                userDTO.setRoleName(userEntity.getRole().getName());
-                response.setUser(userDTO);
+                GetUserRes user = new GetUserRes();
+                BeanUtils.copyProperties(userEntity, user);
+                user.setRoleName(userEntity.getRole().getName());
+                response.setUser(user);
                 Key key = Jwts.SIG.HS512.key().build();
                 String token = Jwts.builder()
                         .subject(userEntity.getEmail())

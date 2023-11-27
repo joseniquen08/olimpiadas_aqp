@@ -9,13 +9,17 @@ import pe.edu.utp.olimpiadas_aqp.models.responses.user.client.CreateClientRes;
 import pe.edu.utp.olimpiadas_aqp.models.responses.user.client.EditClientRes;
 import pe.edu.utp.olimpiadas_aqp.models.responses.user.delegate.CreateDelegateRes;
 import pe.edu.utp.olimpiadas_aqp.models.responses.user.UserRes;
+import pe.edu.utp.olimpiadas_aqp.models.responses.user.delegate.DelegateRes;
 import pe.edu.utp.olimpiadas_aqp.models.responses.user.delegate.EditDelegateRes;
+import pe.edu.utp.olimpiadas_aqp.models.responses.user.delegate.GetDelegatesByEventIdRes;
 
 import java.util.List;
 
 public interface UserServiceInterface {
     List<UserRes> getAll();
     List<ClientRes> getAllClient();
+    List<DelegateRes> getAllDelegate();
+    GetDelegatesByEventIdRes getDelegatesByEventId(Long eventId);
     CreateClientRes createClient(ClientReq clientReq);
     CreateDelegateRes createDelegate(DelegateReq delegateReq);
     EditClientRes editClientById(Long clientId, ClientReq clientReq);

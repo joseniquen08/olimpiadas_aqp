@@ -3,7 +3,7 @@ package pe.edu.utp.olimpiadas_aqp.models.requests.category;
 public class CategoryReq {
     private String name;
     private String description;
-    private Long sportId;
+    private Long sportEventId;
 
     public String getName() {
         return name;
@@ -21,11 +21,11 @@ public class CategoryReq {
         this.description = description;
     }
 
-    public Long getSportId() {
-        return this.sportId;
+    public Long getSportEventId() {
+        return sportEventId;
     }
 
-    public void setSportId(Long sportId) {
-        this.sportId = sportId;
+    public void setSportEventId(Long sportEventId) {
+        this.sportEventId = sportEventId;
     }
 }

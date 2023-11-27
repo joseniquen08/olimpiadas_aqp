@@ -4,22 +4,24 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pe.edu.utp.olimpiadas_aqp.entities.CategoryEntity;
-import pe.edu.utp.olimpiadas_aqp.entities.SportEntity;
+import pe.edu.utp.olimpiadas_aqp.entities.SportEventEntity;
 import pe.edu.utp.olimpiadas_aqp.models.requests.category.CategoryReq;
-import pe.edu.utp.olimpiadas_aqp.models.responses.category.CreateCategoryRes;
-import pe.edu.utp.olimpiadas_aqp.models.responses.category.DeleteCategoryRes;
-import pe.edu.utp.olimpiadas_aqp.models.responses.category.EditCategoryRes;
-import pe.edu.utp.olimpiadas_aqp.models.responses.category.GetCategoryRes;
+import pe.edu.utp.olimpiadas_aqp.models.responses.category.*;
 import pe.edu.utp.olimpiadas_aqp.repositories.CategoryRepository;
+import pe.edu.utp.olimpiadas_aqp.repositories.SportEventRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CategoryService implements CategoryServiceInterface {
     
     @Autowired
     CategoryRepository categoryRepository;
+
+    @Autowired
+    SportEventRepository sportEventRepository;
 
     @Override
     public List<GetCategoryRes> getAll() {
@@ -34,14 +36,35 @@ public class CategoryService implements CategoryServiceInterface {
     }
 
     @Override
-    public CreateCategoryRes createEvent(CategoryReq categoryReq) {
+    public GetCategoriesBySportEventIdRes getBySportEventId(Long sportEventId) {
+        List<CategoryEntity> categoriesRes = categoryRepository.findBySportEventId(sportEventId);
+        GetCategoriesBySportEventIdRes response = new GetCategoriesBySportEventIdRes();
+        List<GetCategoryRes> categories = new ArrayList<>();
+        for (CategoryEntity category : categoriesRes) {
+            GetCategoryRes categoryRes = new GetCategoryRes();
+            BeanUtils.copyProperties(category, categoryRes);
+            categories.add(categoryRes);
+        }
+        response.setCategories(categories);
+        SportEventEntity sportEventEntity;
+        Optional<SportEventEntity> findByIdRes = sportEventRepository.findById(sportEventId);
+        if (findByIdRes.isPresent()) {
+            sportEventEntity = findByIdRes.get();
+            response.setEventName(sportEventEntity.getEvent().getName());
+            response.setSportName(sportEventEntity.getSport().getName());
+        }
+        return response;
+    }
+
+    @Override
+    public CreateCategoryRes createCategory(CategoryReq categoryReq) {
         CategoryEntity categoryEntity = new CategoryEntity();
-        SportEntity sportEntity = new SportEntity();
+        SportEventEntity sportEventEntity = new SportEventEntity();
         CreateCategoryRes response = new CreateCategoryRes();
         GetCategoryRes categoryRes = new GetCategoryRes();
         BeanUtils.copyProperties(categoryReq, categoryEntity);
-        sportEntity.setSportId(categoryReq.getSportId());
-        categoryEntity.setSport(sportEntity);
+        sportEventEntity.setSportEventId(categoryReq.getSportEventId());
+        categoryEntity.setSportEvent(sportEventEntity);
         categoryRepository.save(categoryEntity);
         BeanUtils.copyProperties(categoryEntity, categoryRes);
         response.setMessage("Categoría creada correctamente.");

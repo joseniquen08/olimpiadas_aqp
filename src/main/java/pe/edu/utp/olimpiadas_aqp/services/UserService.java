@@ -4,12 +4,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import pe.edu.utp.olimpiadas_aqp.dto.ClientDTO;
-import pe.edu.utp.olimpiadas_aqp.dto.DelegateDTO;
-import pe.edu.utp.olimpiadas_aqp.entities.ClientEntity;
-import pe.edu.utp.olimpiadas_aqp.entities.DelegateEntity;
-import pe.edu.utp.olimpiadas_aqp.entities.RoleEntity;
-import pe.edu.utp.olimpiadas_aqp.entities.UserEntity;
+import pe.edu.utp.olimpiadas_aqp.entities.*;
 import pe.edu.utp.olimpiadas_aqp.models.requests.user.client.ClientReq;
 import pe.edu.utp.olimpiadas_aqp.models.requests.user.delegate.DelegateReq;
 import pe.edu.utp.olimpiadas_aqp.models.responses.user.DeleteUserRes;
@@ -17,13 +12,9 @@ import pe.edu.utp.olimpiadas_aqp.models.responses.user.client.ClientRes;
 import pe.edu.utp.olimpiadas_aqp.models.responses.user.client.CreateClientRes;
 import pe.edu.utp.olimpiadas_aqp.models.responses.user.client.EditClientRes;
 import pe.edu.utp.olimpiadas_aqp.models.responses.user.client.GetClientRes;
-import pe.edu.utp.olimpiadas_aqp.models.responses.user.delegate.CreateDelegateRes;
+import pe.edu.utp.olimpiadas_aqp.models.responses.user.delegate.*;
 import pe.edu.utp.olimpiadas_aqp.models.responses.user.UserRes;
-import pe.edu.utp.olimpiadas_aqp.models.responses.user.delegate.EditDelegateRes;
-import pe.edu.utp.olimpiadas_aqp.models.responses.user.delegate.GetDelegateRes;
-import pe.edu.utp.olimpiadas_aqp.repositories.ClientRepository;
-import pe.edu.utp.olimpiadas_aqp.repositories.DelegateRepository;
-import pe.edu.utp.olimpiadas_aqp.repositories.UserRepository;
+import pe.edu.utp.olimpiadas_aqp.repositories.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +31,12 @@ public class UserService implements UserServiceInterface {
 
     @Autowired
     DelegateRepository delegateRepository;
+
+    @Autowired
+    DelegateEventRepository delegateEventRepository;
+
+    @Autowired
+    EventRepository eventRepository;
 
     @Autowired
     BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -82,11 +79,45 @@ public class UserService implements UserServiceInterface {
     }
 
     @Override
+    public List<DelegateRes> getAllDelegate() {
+        List<DelegateEntity> delegates = delegateRepository.findAll();
+        List<DelegateRes> response = new ArrayList<>();
+        for (DelegateEntity delegate: delegates) {
+            DelegateRes delegateRes = new DelegateRes();
+            delegateRes.setDelegateId(delegate.getDelegateId());
+            delegateRes.setFullName(delegate.getUser().getFullName());
+            response.add(delegateRes);
+        }
+        return response;
+    }
+
+    @Override
+    public GetDelegatesByEventIdRes getDelegatesByEventId(Long eventId) {
+        List<DelegateEventEntity> delegatesEvent = delegateEventRepository.findByEventId(eventId);
+        GetDelegatesByEventIdRes response = new GetDelegatesByEventIdRes();
+        List<GetDelegatesEventRes> delegates = new ArrayList<>();
+        for (DelegateEventEntity delegateEvent: delegatesEvent) {
+            GetDelegatesEventRes delegatesEventRes = new GetDelegatesEventRes();
+            BeanUtils.copyProperties(delegateEvent.getDelegate().getUser(), delegatesEventRes);
+            BeanUtils.copyProperties(delegateEvent.getDelegate(), delegatesEventRes);
+            delegatesEventRes.setDelegateEventId(delegateEvent.getDelegateEventId());
+            delegates.add(delegatesEventRes);
+        }
+        response.setDelegates(delegates);
+        EventEntity eventEntity;
+        Optional<EventEntity> findByIdRes = eventRepository.findById(eventId);
+        if (findByIdRes.isPresent()) {
+            eventEntity = findByIdRes.get();
+            response.setEventName(eventEntity.getName());
+        }
+        return response;
+    }
+
+    @Override
     public CreateClientRes createClient(ClientReq clientReq) {
         UserEntity userEntity = new UserEntity();
         RoleEntity roleEntity = new RoleEntity();
         ClientEntity clientEntity = new ClientEntity();
-        ClientDTO clientDTO = new ClientDTO();
         CreateClientRes response = new CreateClientRes();
 
         roleEntity.setRoleId(clientReq.getRoleId());
@@ -94,16 +125,15 @@ public class UserService implements UserServiceInterface {
         userEntity.setPassword(bCryptPasswordEncoder.encode(clientReq.getPassword()));
         userEntity.setRole(roleEntity);
         userRepository.save(userEntity);
-        BeanUtils.copyProperties(userEntity, clientDTO);
+        BeanUtils.copyProperties(userEntity, response);
 
         BeanUtils.copyProperties(clientReq, clientEntity);
         clientEntity.setUser(userEntity);
         clientRepository.save(clientEntity);
-        BeanUtils.copyProperties(clientEntity, clientDTO);
+        BeanUtils.copyProperties(clientEntity, response);
 
         response.setMessage("Cliente creado correctamente.");
         response.setStatus(201);
-        response.setUser(clientDTO);
         return response;
     }
 
@@ -112,7 +142,6 @@ public class UserService implements UserServiceInterface {
         UserEntity userEntity = new UserEntity();
         RoleEntity roleEntity = new RoleEntity();
         DelegateEntity delegateEntity = new DelegateEntity();
-        DelegateDTO delegateDTO = new DelegateDTO();
         CreateDelegateRes response = new CreateDelegateRes();
 
         roleEntity.setRoleId(delegateReq.getRoleId());
@@ -120,16 +149,15 @@ public class UserService implements UserServiceInterface {
         userEntity.setPassword(bCryptPasswordEncoder.encode(delegateReq.getPassword()));
         userEntity.setRole(roleEntity);
         userRepository.save(userEntity);
-        BeanUtils.copyProperties(userEntity, delegateDTO);
+        BeanUtils.copyProperties(userEntity, response);
 
         BeanUtils.copyProperties(delegateReq, delegateEntity);
         delegateEntity.setUser(userEntity);
         delegateRepository.save(delegateEntity);
-        BeanUtils.copyProperties(delegateEntity, delegateDTO);
+        BeanUtils.copyProperties(delegateEntity, response);
 
         response.setMessage("Delegado creado correctamente.");
         response.setStatus(201);
-        response.setUser(delegateDTO);
         return response;
     }
 

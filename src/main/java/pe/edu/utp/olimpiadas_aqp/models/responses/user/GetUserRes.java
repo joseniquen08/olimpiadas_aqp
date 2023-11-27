@@ -1,6 +1,6 @@
-package pe.edu.utp.olimpiadas_aqp.dto;
+package pe.edu.utp.olimpiadas_aqp.models.responses.user;
 
-public class UserDTO {
+public class GetUserRes {
     private long userId;
     private String fullName;
     private String email;

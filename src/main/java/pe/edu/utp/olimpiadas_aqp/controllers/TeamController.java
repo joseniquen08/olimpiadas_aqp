@@ -3,7 +3,6 @@ package pe.edu.utp.olimpiadas_aqp.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import pe.edu.utp.olimpiadas_aqp.models.requests.team.TeamReq;
-import pe.edu.utp.olimpiadas_aqp.models.responses.event.DeleteEventRes;
 import pe.edu.utp.olimpiadas_aqp.models.responses.team.CreateTeamRes;
 import pe.edu.utp.olimpiadas_aqp.models.responses.team.DeleteTeamRes;
 import pe.edu.utp.olimpiadas_aqp.models.responses.team.EditTeamRes;

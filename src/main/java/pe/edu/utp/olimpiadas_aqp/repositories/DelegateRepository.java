@@ -7,6 +7,9 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import pe.edu.utp.olimpiadas_aqp.entities.DelegateEntity;
+import pe.edu.utp.olimpiadas_aqp.entities.SportEventEntity;
+
+import java.util.List;
 
 @Repository
 public interface DelegateRepository extends JpaRepository<DelegateEntity, Long> {

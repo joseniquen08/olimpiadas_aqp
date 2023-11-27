@@ -1,11 +1,13 @@
 package pe.edu.utp.olimpiadas_aqp.models.responses.user.client;
 
-import pe.edu.utp.olimpiadas_aqp.dto.ClientDTO;
-
 public class CreateClientRes {
     private String message;
     private int status;
-    private ClientDTO user;
+    private String fullName;
+    private String email;
+    private Long ruc;
+    private String representative;
+    private Long phone;
 
     public String getMessage() {
         return message;
@@ -23,11 +25,43 @@ public class CreateClientRes {
         this.status = status;
     }
 
-    public ClientDTO getUser() {
-        return user;
+    public String getFullName() {
+        return fullName;
     }
 
-    public void setUser(ClientDTO user) {
-        this.user = user;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Long getRuc() {
+        return ruc;
+    }
+
+    public void setRuc(Long ruc) {
+        this.ruc = ruc;
+    }
+
+    public String getRepresentative() {
+        return representative;
+    }
+
+    public void setRepresentative(String representative) {
+        this.representative = representative;
+    }
+
+    public Long getPhone() {
+        return phone;
+    }
+
+    public void setPhone(Long phone) {
+        this.phone = phone;
     }
 }
