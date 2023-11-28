@@ -1,12 +1,15 @@
 package pe.edu.utp.olimpiadas_aqp.services;
 
+import io.jsonwebtoken.JwtException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import pe.edu.utp.olimpiadas_aqp.entities.*;
 import pe.edu.utp.olimpiadas_aqp.models.requests.user.client.ClientReq;
 import pe.edu.utp.olimpiadas_aqp.models.requests.user.delegate.DelegateReq;
+import pe.edu.utp.olimpiadas_aqp.models.responses.BodyRes;
 import pe.edu.utp.olimpiadas_aqp.models.responses.user.DeleteUserRes;
 import pe.edu.utp.olimpiadas_aqp.models.responses.user.client.ClientRes;
 import pe.edu.utp.olimpiadas_aqp.models.responses.user.client.CreateClientRes;
@@ -15,6 +18,7 @@ import pe.edu.utp.olimpiadas_aqp.models.responses.user.client.GetClientRes;
 import pe.edu.utp.olimpiadas_aqp.models.responses.user.delegate.*;
 import pe.edu.utp.olimpiadas_aqp.models.responses.user.UserRes;
 import pe.edu.utp.olimpiadas_aqp.repositories.*;
+import pe.edu.utp.olimpiadas_aqp.security.JwtUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,26 +45,39 @@ public class UserService implements UserServiceInterface {
     @Autowired
     BCryptPasswordEncoder bCryptPasswordEncoder;
 
+    @Autowired
+    private JwtUtil jwtUtil;
+
     @Override
-    public List<UserRes> getAll() {
-        List<UserEntity> users = userRepository.findAll();
-        List<UserRes> response = new ArrayList<>();
-        for (UserEntity user: users) {
-            UserRes userRes = new UserRes();
-            BeanUtils.copyProperties(user, userRes);
-            userRes.setRoleName(user.getRole().getName());
-            if (user.getRole().getName().equals("CLIENTE")) {
-                GetClientRes clientRes = new GetClientRes();
-                ClientEntity client = clientRepository.findByUserId(user.getUserId());
-                BeanUtils.copyProperties(client, clientRes);
-                userRes.setClient(clientRes);
-            } else if (user.getRole().getName().equals("DELEGADO")) {
-                GetDelegateRes delegateRes = new GetDelegateRes();
-                DelegateEntity delegate = delegateRepository.findByUserId(user.getUserId());
-                BeanUtils.copyProperties(delegate, delegateRes);
-                userRes.setDelegate(delegateRes);
+    public BodyRes<List<UserRes>> getAll(String token) {
+        BodyRes<List<UserRes>> response = new BodyRes<>();
+        try {
+            List<UserRes> userResList = new ArrayList<>();
+            boolean isValid = jwtUtil.validateToken(token);
+            if (isValid) {
+                List<UserEntity> users = userRepository.findAll();
+                for (UserEntity user: users) {
+                    UserRes userRes = new UserRes();
+                    BeanUtils.copyProperties(user, userRes);
+                    userRes.setRoleName(user.getRole().getName());
+                    if (user.getRole().getName().equals("CLIENTE")) {
+                        GetClientRes clientRes = new GetClientRes();
+                        ClientEntity client = clientRepository.findByUserId(user.getUserId());
+                        BeanUtils.copyProperties(client, clientRes);
+                        userRes.setClient(clientRes);
+                    } else if (user.getRole().getName().equals("DELEGADO")) {
+                        GetDelegateRes delegateRes = new GetDelegateRes();
+                        DelegateEntity delegate = delegateRepository.findByUserId(user.getUserId());
+                        BeanUtils.copyProperties(delegate, delegateRes);
+                        userRes.setDelegate(delegateRes);
+                    }
+                    userResList.add(userRes);
+                }
+                response.setData(userResList);
             }
-            response.add(userRes);
+        } catch (JwtException e) {
+            response.setStatus(HttpStatus.UNAUTHORIZED);
+            response.setMessage(e.getMessage());
         }
         return response;
     }

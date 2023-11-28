@@ -1,6 +1,5 @@
 package pe.edu.utp.olimpiadas_aqp.services;
 
-import io.jsonwebtoken.Jwts;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -10,10 +9,7 @@ import pe.edu.utp.olimpiadas_aqp.models.requests.auth.LoginReq;
 import pe.edu.utp.olimpiadas_aqp.models.responses.auth.LoginRes;
 import pe.edu.utp.olimpiadas_aqp.models.responses.user.GetUserRes;
 import pe.edu.utp.olimpiadas_aqp.repositories.UserRepository;
-import pe.edu.utp.olimpiadas_aqp.security.SecurityConstants;
-
-import java.security.Key;
-import java.util.Date;
+import pe.edu.utp.olimpiadas_aqp.security.JwtUtil;
 
 @Service
 public class AuthService implements AuthServiceInterface {
@@ -23,6 +19,9 @@ public class AuthService implements AuthServiceInterface {
 
     @Autowired
     BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    @Autowired
+    private JwtUtil jwtUtil;
 
     @Override
     public LoginRes login(LoginReq loginReq) {
@@ -39,13 +38,8 @@ public class AuthService implements AuthServiceInterface {
                 BeanUtils.copyProperties(userEntity, user);
                 user.setRoleName(userEntity.getRole().getName());
                 response.setUser(user);
-                Key key = Jwts.SIG.HS512.key().build();
-                String token = Jwts.builder()
-                        .subject(userEntity.getEmail())
-                        .expiration(new Date(System.currentTimeMillis() + SecurityConstants.EXPIRATION_DATE))
-                        .signWith(key)
-                        .compact();
-                response.setToken(SecurityConstants.TOKEN_PREFIX + token);
+                String token = jwtUtil.createToken(userEntity.getEmail());
+                response.setToken(token);
             } else {
                 response.setStatus(404);
                 response.setMessage("Credenciales incorrectas.");

@@ -2,6 +2,7 @@ package pe.edu.utp.olimpiadas_aqp.services;
 
 import pe.edu.utp.olimpiadas_aqp.models.requests.user.client.ClientReq;
 import pe.edu.utp.olimpiadas_aqp.models.requests.user.delegate.DelegateReq;
+import pe.edu.utp.olimpiadas_aqp.models.responses.BodyRes;
 import pe.edu.utp.olimpiadas_aqp.models.responses.event.DeleteEventRes;
 import pe.edu.utp.olimpiadas_aqp.models.responses.user.DeleteUserRes;
 import pe.edu.utp.olimpiadas_aqp.models.responses.user.client.ClientRes;
@@ -16,7 +17,7 @@ import pe.edu.utp.olimpiadas_aqp.models.responses.user.delegate.GetDelegatesByEv
 import java.util.List;
 
 public interface UserServiceInterface {
-    List<UserRes> getAll();
+    BodyRes<List<UserRes>> getAll(String token);
     List<ClientRes> getAllClient();
     List<DelegateRes> getAllDelegate();
     GetDelegatesByEventIdRes getDelegatesByEventId(Long eventId);

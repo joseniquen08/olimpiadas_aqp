@@ -1,10 +1,12 @@
 package pe.edu.utp.olimpiadas_aqp.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
 
 import pe.edu.utp.olimpiadas_aqp.models.requests.user.client.ClientReq;
 import pe.edu.utp.olimpiadas_aqp.models.requests.user.delegate.DelegateReq;
+import pe.edu.utp.olimpiadas_aqp.models.responses.BodyRes;
 import pe.edu.utp.olimpiadas_aqp.models.responses.user.DeleteUserRes;
 import pe.edu.utp.olimpiadas_aqp.models.responses.user.client.ClientRes;
 import pe.edu.utp.olimpiadas_aqp.models.responses.user.client.CreateClientRes;
@@ -26,8 +28,8 @@ public class UserController {
     UserServiceInterface userService;
 
     @RequestMapping(value = "all", method = RequestMethod.GET)
-    public List<UserRes> getAll() {
-        return userService.getAll();
+    public BodyRes<List<UserRes>> getAll(@RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
+        return userService.getAll(token);
     }
 
     @RequestMapping(value = "client/all", method = RequestMethod.GET)
