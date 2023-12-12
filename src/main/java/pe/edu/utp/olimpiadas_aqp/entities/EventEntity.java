@@ -32,9 +32,6 @@ public class EventEntity implements Serializable {
     private ClientEntity client;
 
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
-    private Set<DelegateEventEntity> delegateEventEntitySet;
-
-    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
     private Set<SportEventEntity> sportEventEntitySet;
 
     @Column(name = "created_at", nullable = false, insertable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
@@ -78,14 +75,6 @@ public class EventEntity implements Serializable {
 
     public void setClient(ClientEntity client) {
         this.client = client;
-    }
-
-    public Set<DelegateEventEntity> getDelegateEventEntitySet() {
-        return delegateEventEntitySet;
-    }
-
-    public void setDelegateEventEntitySet(Set<DelegateEventEntity> delegateEventEntitySet) {
-        this.delegateEventEntitySet = delegateEventEntitySet;
     }
 
     public Set<SportEventEntity> getSportEventEntitySet() {

@@ -37,9 +37,6 @@ public class UserService implements UserServiceInterface {
     DelegateRepository delegateRepository;
 
     @Autowired
-    DelegateEventRepository delegateEventRepository;
-
-    @Autowired
     EventRepository eventRepository;
 
     @Autowired
@@ -53,7 +50,7 @@ public class UserService implements UserServiceInterface {
         BodyRes<List<UserRes>> response = new BodyRes<>();
         try {
             List<UserRes> userResList = new ArrayList<>();
-            boolean isValid = jwtUtil.validateToken(token);
+            boolean isValid = jwtUtil.validateToken(token).equals("ADMIN");
             if (isValid) {
                 List<UserEntity> users = userRepository.findAll();
                 for (UserEntity user: users) {
@@ -108,27 +105,27 @@ public class UserService implements UserServiceInterface {
         return response;
     }
 
-    @Override
-    public GetDelegatesByEventIdRes getDelegatesByEventId(Long eventId) {
-        List<DelegateEventEntity> delegatesEvent = delegateEventRepository.findByEventId(eventId);
-        GetDelegatesByEventIdRes response = new GetDelegatesByEventIdRes();
-        List<GetDelegatesEventRes> delegates = new ArrayList<>();
-        for (DelegateEventEntity delegateEvent: delegatesEvent) {
-            GetDelegatesEventRes delegatesEventRes = new GetDelegatesEventRes();
-            BeanUtils.copyProperties(delegateEvent.getDelegate().getUser(), delegatesEventRes);
-            BeanUtils.copyProperties(delegateEvent.getDelegate(), delegatesEventRes);
-            delegatesEventRes.setDelegateEventId(delegateEvent.getDelegateEventId());
-            delegates.add(delegatesEventRes);
-        }
-        response.setDelegates(delegates);
-        EventEntity eventEntity;
-        Optional<EventEntity> findByIdRes = eventRepository.findById(eventId);
-        if (findByIdRes.isPresent()) {
-            eventEntity = findByIdRes.get();
-            response.setEventName(eventEntity.getName());
-        }
-        return response;
-    }
+//    @Override
+//    public GetDelegatesByEventIdRes getDelegatesBySportEventId(Long sportEventId) {
+//        List<DelegateEventEntity> delegatesEvent = delegateEventRepository.findByEventId(eventId);
+//        GetDelegatesByEventIdRes response = new GetDelegatesByEventIdRes();
+//        List<GetDelegatesEventRes> delegates = new ArrayList<>();
+//        for (DelegateEventEntity delegateEvent: delegatesEvent) {
+//            GetDelegatesEventRes delegatesEventRes = new GetDelegatesEventRes();
+//            BeanUtils.copyProperties(delegateEvent.getDelegate().getUser(), delegatesEventRes);
+//            BeanUtils.copyProperties(delegateEvent.getDelegate(), delegatesEventRes);
+//            delegatesEventRes.setDelegateEventId(delegateEvent.getDelegateEventId());
+//            delegates.add(delegatesEventRes);
+//        }
+//        response.setDelegates(delegates);
+//        EventEntity eventEntity;
+//        Optional<EventEntity> findByIdRes = eventRepository.findById(eventId);
+//        if (findByIdRes.isPresent()) {
+//            eventEntity = findByIdRes.get();
+//            response.setEventName(eventEntity.getName());
+//        }
+//        return response;
+//    }
 
     @Override
     public CreateClientRes createClient(ClientReq clientReq) {

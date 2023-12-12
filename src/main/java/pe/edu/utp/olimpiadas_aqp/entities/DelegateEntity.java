@@ -28,9 +28,6 @@ public class DelegateEntity implements Serializable {
     @JoinColumn(name = "user_id", referencedColumnName = "user_id", nullable = false)
     private UserEntity user;
 
-    @OneToMany(mappedBy = "delegate", cascade = CascadeType.ALL)
-    private Set<DelegateEventEntity> delegateEventEntitySet;
-
     @Column(name = "created_at", nullable = false, insertable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private Date createdAt;
 
@@ -64,14 +61,6 @@ public class DelegateEntity implements Serializable {
 
     public void setUser(UserEntity user) {
         this.user = user;
-    }
-
-    public Set<DelegateEventEntity> getDelegateEventEntitySet() {
-        return delegateEventEntitySet;
-    }
-
-    public void setDelegateEventEntitySet(Set<DelegateEventEntity> delegateEventEntitySet) {
-        this.delegateEventEntitySet = delegateEventEntitySet;
     }
 
     public Date getCreatedAt() {

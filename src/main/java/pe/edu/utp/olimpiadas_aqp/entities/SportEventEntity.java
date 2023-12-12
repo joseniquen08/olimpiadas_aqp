@@ -25,6 +25,10 @@ public class SportEventEntity implements Serializable {
     @JoinColumn(name = "event_id")
     private EventEntity event;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "delegate_id")
+    private DelegateEntity delegate;
+
     @Column(name = "created_at", nullable = false, insertable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private Date createdAt;
 
@@ -50,6 +54,14 @@ public class SportEventEntity implements Serializable {
 
     public void setEvent(EventEntity event) {
         this.event = event;
+    }
+
+    public DelegateEntity getDelegate() {
+        return delegate;
+    }
+
+    public void setDelegate(DelegateEntity delegate) {
+        this.delegate = delegate;
     }
 
     public Date getCreatedAt() {

@@ -8,6 +8,8 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import pe.edu.utp.olimpiadas_aqp.entities.TeamEntity;
 
+import java.util.List;
+
 @Repository
 public interface TeamRepository extends JpaRepository<TeamEntity, Long> {
     @Transactional
@@ -17,4 +19,7 @@ public interface TeamRepository extends JpaRepository<TeamEntity, Long> {
             @Param("team_id") Long teamId,
             @Param("name") String name,
             @Param("imageUrl") String imageUrl);
+
+    @Query(value = "select * from team where category_id = :category_id", nativeQuery = true)
+    List<TeamEntity> findByCategoryId(@Param("category_id") Long categoryId);
 }

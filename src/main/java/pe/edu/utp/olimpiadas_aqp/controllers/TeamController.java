@@ -3,10 +3,7 @@ package pe.edu.utp.olimpiadas_aqp.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import pe.edu.utp.olimpiadas_aqp.models.requests.team.TeamReq;
-import pe.edu.utp.olimpiadas_aqp.models.responses.team.CreateTeamRes;
-import pe.edu.utp.olimpiadas_aqp.models.responses.team.DeleteTeamRes;
-import pe.edu.utp.olimpiadas_aqp.models.responses.team.EditTeamRes;
-import pe.edu.utp.olimpiadas_aqp.models.responses.team.GetTeamRes;
+import pe.edu.utp.olimpiadas_aqp.models.responses.team.*;
 import pe.edu.utp.olimpiadas_aqp.services.TeamServiceInterface;
 
 import java.util.List;
@@ -21,6 +18,11 @@ public class TeamController {
     @RequestMapping(value = "all", method = RequestMethod.GET)
     public List<GetTeamRes> getAll() {
         return teamService.getAll();
+    }
+
+    @RequestMapping(value = "all/category/{id}", method = RequestMethod.GET)
+    public GetTeamsByCategoryIdRes getByCategoryId(@PathVariable("id") Long categoryId) {
+        return teamService.getByCategoryId(categoryId);
     }
 
     @RequestMapping(value = "create", method = RequestMethod.POST)

@@ -52,6 +52,31 @@ public class SportService implements SportServiceInterface {
         for (SportEventEntity sportEvent: sportEvents) {
             GetSportsEventRes sportsEventRes = new GetSportsEventRes();
             BeanUtils.copyProperties(sportEvent.getSport(), sportsEventRes);
+            sportsEventRes.setDelegate(sportEvent.getDelegate().getUser().getFullName());
+            sportsEventRes.setSportEventId(sportEvent.getSportEventId());
+            int totalCategories = categoryRepository.findBySportEventId(sportEvent.getSportEventId()).size();
+            sportsEventRes.setTotalCategories(totalCategories);
+            sports.add(sportsEventRes);
+        }
+        response.setSports(sports);
+        EventEntity eventEntity;
+        Optional<EventEntity> findByIdRes = eventRepository.findById(eventId);
+        if (findByIdRes.isPresent()) {
+            eventEntity = findByIdRes.get();
+            response.setEventName(eventEntity.getName());
+        }
+        return response;
+    }
+
+    @Override
+    public GetSportsByEventIdRes getSportsByEventIdAndDelegateId(Long eventId, Long delegateId) {
+        List<SportEventEntity> sportEvents = sportEventRepository.findByEventIdAndDelegateId(eventId, delegateId);
+        GetSportsByEventIdRes response = new GetSportsByEventIdRes();
+        List<GetSportsEventRes> sports = new ArrayList<>();
+        for (SportEventEntity sportEvent: sportEvents) {
+            GetSportsEventRes sportsEventRes = new GetSportsEventRes();
+            BeanUtils.copyProperties(sportEvent.getSport(), sportsEventRes);
+            sportsEventRes.setDelegate(sportEvent.getDelegate().getUser().getFullName());
             sportsEventRes.setSportEventId(sportEvent.getSportEventId());
             int totalCategories = categoryRepository.findBySportEventId(sportEvent.getSportEventId()).size();
             sportsEventRes.setTotalCategories(totalCategories);

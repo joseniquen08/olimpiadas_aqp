@@ -2,7 +2,6 @@ package pe.edu.utp.olimpiadas_aqp.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import pe.edu.utp.olimpiadas_aqp.models.requests.event.AssignDelegateToEventReq;
 import pe.edu.utp.olimpiadas_aqp.models.requests.event.AssignSportToEventReq;
 import pe.edu.utp.olimpiadas_aqp.models.requests.event.ChangeEventStatusReq;
 import pe.edu.utp.olimpiadas_aqp.models.requests.event.EventReq;
@@ -21,6 +20,16 @@ public class EventController {
     @RequestMapping(value = "all", method = RequestMethod.GET)
     public List<GetEventRes> getAll() {
         return eventService.getAll();
+    }
+
+    @RequestMapping(value = "all/client/{id}", method = RequestMethod.GET)
+    public List<GetEventRes> getByClientId(@PathVariable("id") Long clientId) {
+        return eventService.getByClientId(clientId);
+    }
+
+    @RequestMapping(value = "all/delegate/{id}", method = RequestMethod.GET)
+    public List<GetEventRes> getByDelegateId(@PathVariable("id") Long delegateId) {
+        return eventService.getByDelegateId(delegateId);
     }
 
     @RequestMapping(value = "create", method = RequestMethod.POST)
@@ -48,18 +57,8 @@ public class EventController {
         return eventService.assignSportToEvent(sportToEventReq);
     }
 
-    @RequestMapping(value = "assign/delegate", method = RequestMethod.POST)
-    public AssignDelegateToEventRes assignDelegate(@RequestBody AssignDelegateToEventReq delegateToEventReq) {
-        return eventService.assignDelegateToEvent(delegateToEventReq);
-    }
-
     @RequestMapping(value = "unassign/sport/{id}", method = RequestMethod.DELETE)
     public UnassignSportRes unassignSport(@PathVariable("id") Long sportEventId) {
         return eventService.unassignSport(sportEventId);
-    }
-
-    @RequestMapping(value = "unassign/delegate/{id}", method = RequestMethod.DELETE)
-    public UnassignDelegateRes unassignDelegate(@PathVariable("id") Long delegateEventId) {
-        return eventService.unassignDelegate(delegateEventId);
     }
 }

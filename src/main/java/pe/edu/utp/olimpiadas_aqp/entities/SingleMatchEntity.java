@@ -5,27 +5,27 @@ import jakarta.persistence.*;
 import java.io.Serial;
 import java.io.Serializable;
 import java.sql.Date;
-import java.util.Set;
+import java.sql.Time;
 
-@Entity(name = "team")
-public class TeamEntity implements Serializable {
+@Entity(name = "single_match")
+public class SingleMatchEntity implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "team_id", nullable = false)
-    private Long teamId;
+    @Column(name = "single_match_id", nullable = false)
+    private Long singleMatchId;
 
     @Column(nullable = false)
-    private String name;
+    private Date date;
 
     @Column(nullable = false)
-    private String nickname;
+    private Time time;
 
-    @Column(nullable = false, columnDefinition = "TEXT")
-    private String imageUrl;
+    @Column(nullable = false, columnDefinition = "int default 0")
+    private int status;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id", referencedColumnName = "category_id", nullable = false)
@@ -34,52 +34,51 @@ public class TeamEntity implements Serializable {
     @Column(name = "created_at", nullable = false, insertable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private Date createdAt;
 
-    public Long getTeamId() {
-        return this.teamId;
+    public Long getSingleMatchId() {
+        return singleMatchId;
     }
 
-    public void setTeamId(Long teamId) {
-        this.teamId = teamId;
+    public void setSingleMatchId(Long singleMatchId) {
+        this.singleMatchId = singleMatchId;
     }
 
-    public String getName() {
-        return this.name;
+    public Date getDate() {
+        return date;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setDate(Date date) {
+        this.date = date;
     }
 
-    public String getNickname() {
-        return nickname;
+    public Time getTime() {
+        return time;
     }
 
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
+    public void setTime(Time time) {
+        this.time = time;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+    public int getStatus() {
+        return status;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setStatus(int status) {
+        this.status = status;
     }
 
     public CategoryEntity getCategory() {
-        return this.category;
+        return category;
     }
 
     public void setCategory(CategoryEntity category) {
         this.category = category;
     }
-    
+
     public Date getCreatedAt() {
-        return this.createdAt;
+        return createdAt;
     }
 
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
-
 }

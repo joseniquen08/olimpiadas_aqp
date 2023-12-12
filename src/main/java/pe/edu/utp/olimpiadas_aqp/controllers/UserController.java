@@ -42,10 +42,10 @@ public class UserController {
         return userService.getAllDelegate();
     }
 
-    @RequestMapping(value = "delegate/all/event/{id}", method = RequestMethod.GET)
-    public GetDelegatesByEventIdRes getDelegatesByEventId(@PathVariable("id") Long eventId) {
-        return userService.getDelegatesByEventId(eventId);
-    }
+//    @RequestMapping(value = "delegate/all/sport_event/{id}", method = RequestMethod.GET)
+//    public GetDelegatesByEventIdRes getDelegatesBySportEventId(@PathVariable("id") Long sportEventId) {
+//        return userService.getDelegatesBySportEventId(eventId);
+//    }
 
     @RequestMapping(value = "create/client", method = RequestMethod.POST)
     public CreateClientRes createClient(@RequestBody ClientReq clientReq) {

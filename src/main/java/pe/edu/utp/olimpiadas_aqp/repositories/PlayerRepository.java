@@ -7,9 +7,11 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import pe.edu.utp.olimpiadas_aqp.entities.PlayerEntity;
+import pe.edu.utp.olimpiadas_aqp.entities.TeamEntity;
 
 
 import java.sql.Date;
+import java.util.List;
 
 @Repository
 public interface PlayerRepository extends JpaRepository<PlayerEntity, Long> {
@@ -24,4 +26,7 @@ public interface PlayerRepository extends JpaRepository<PlayerEntity, Long> {
             @Param("height") double height,
             @Param("weight") double weight,
             @Param("jerseyNumber") int jerseyNumber);
+
+    @Query(value = "select * from player where team_id = :team_id", nativeQuery = true)
+    List<PlayerEntity> findByTeamId(@Param("team_id") Long teamId);
 }

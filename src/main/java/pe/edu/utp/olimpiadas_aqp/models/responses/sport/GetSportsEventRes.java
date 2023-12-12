@@ -4,6 +4,7 @@ public class GetSportsEventRes {
     private Long sportId;
     private Long sportEventId;
     private String name;
+    private String delegate;
     private String description;
     private int totalCategories;
 
@@ -29,6 +30,14 @@ public class GetSportsEventRes {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getDelegate() {
+        return delegate;
+    }
+
+    public void setDelegate(String delegate) {
+        this.delegate = delegate;
     }
 
     public String getDescription() {

@@ -12,4 +12,7 @@ import java.util.List;
 public interface SportEventRepository extends JpaRepository<SportEventEntity, Long> {
     @Query(value = "select * from sport_event where event_id = :event_id", nativeQuery = true)
     List<SportEventEntity> findByEventId(@Param("event_id") Long eventId);
+
+    @Query(value = "select * from sport_event where event_id = :event_id and delegate_id = :delegate_id", nativeQuery = true)
+    List<SportEventEntity> findByEventIdAndDelegateId(@Param("event_id") Long eventId, @Param("delegate_id") Long delegateId);
 }

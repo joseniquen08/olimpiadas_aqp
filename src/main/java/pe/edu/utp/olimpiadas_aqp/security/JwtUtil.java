@@ -15,10 +15,10 @@ public class JwtUtil {
         this.jwtParser = Jwts.parser().verifyWith(SECRET_KEY).build();
     }
 
-    public String createToken(String email) {
+    public String createToken(String role) {
         long EXPIRATION_DATE = 86400000;
         return Jwts.builder()
-                .subject(email)
+                .subject(role)
                 .expiration(new Date(System.currentTimeMillis() + EXPIRATION_DATE))
                 .signWith(SECRET_KEY)
                 .compact();
@@ -48,13 +48,13 @@ public class JwtUtil {
         }
     }
 
-    public boolean validateToken(String bearerToken) {
+    public String validateToken(String bearerToken) {
         try {
             Claims claims = resolveClaims(bearerToken);
             if (claims != null) {
-                return claims.getSubject().equals("admin@olimpiadasaqp.com");
+                return claims.getSubject();
             }
-            return false;
+            return null;
         } catch (Exception e) {
             throw e;
         }

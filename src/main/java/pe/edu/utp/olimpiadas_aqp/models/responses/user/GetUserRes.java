@@ -5,6 +5,7 @@ public class GetUserRes {
     private String fullName;
     private String email;
     private String roleName;
+    private long userRoleId;
 
     public long getUserId() {
         return userId;
@@ -36,5 +37,13 @@ public class GetUserRes {
 
     public void setRoleName(String roleName) {
         this.roleName = roleName;
+    }
+
+    public long getUserRoleId() {
+        return userRoleId;
+    }
+
+    public void setUserRoleId(long userRoleId) {
+        this.userRoleId = userRoleId;
     }
 }

@@ -20,7 +20,7 @@ public interface UserServiceInterface {
     BodyRes<List<UserRes>> getAll(String token);
     List<ClientRes> getAllClient();
     List<DelegateRes> getAllDelegate();
-    GetDelegatesByEventIdRes getDelegatesByEventId(Long eventId);
+//    GetDelegatesByEventIdRes getDelegatesBySportEventId(Long sportEventId);
     CreateClientRes createClient(ClientReq clientReq);
     CreateDelegateRes createDelegate(DelegateReq delegateReq);
     EditClientRes editClientById(Long clientId, ClientReq clientReq);

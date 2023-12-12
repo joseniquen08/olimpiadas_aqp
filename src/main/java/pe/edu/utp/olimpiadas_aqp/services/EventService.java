@@ -2,16 +2,15 @@ package pe.edu.utp.olimpiadas_aqp.services;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import pe.edu.utp.olimpiadas_aqp.entities.*;
-import pe.edu.utp.olimpiadas_aqp.models.requests.event.AssignDelegateToEventReq;
 import pe.edu.utp.olimpiadas_aqp.models.requests.event.AssignSportToEventReq;
 import pe.edu.utp.olimpiadas_aqp.models.requests.event.ChangeEventStatusReq;
 import pe.edu.utp.olimpiadas_aqp.models.requests.event.EventReq;
 import pe.edu.utp.olimpiadas_aqp.models.responses.event.*;
 import pe.edu.utp.olimpiadas_aqp.repositories.ClientRepository;
-import pe.edu.utp.olimpiadas_aqp.repositories.DelegateEventRepository;
 import pe.edu.utp.olimpiadas_aqp.repositories.EventRepository;
 import pe.edu.utp.olimpiadas_aqp.repositories.SportEventRepository;
 
@@ -34,9 +33,6 @@ public class EventService implements EventServiceInterface {
     SportEventRepository sportEventRepository;
 
     @Autowired
-    DelegateEventRepository delegateEventRepository;
-
-    @Autowired
     EmailServiceInterface emailService;
 
     @Override
@@ -47,6 +43,48 @@ public class EventService implements EventServiceInterface {
         orders.add(statusOrder);
         orders.add(startDateOrder);
         List<EventEntity> events = eventRepository.findAll(Sort.by(orders));
+        List<GetEventRes> response = new ArrayList<>();
+        for (EventEntity event: events) {
+            GetEventRes eventRes = new GetEventRes();
+            BeanUtils.copyProperties(event, eventRes);
+            eventRes.setClientId(event.getClient().getClientId());
+            eventRes.setClient(event.getClient().getUser().getFullName());
+            eventRes.setRepresentative(event.getClient().getRepresentative());
+            eventRes.setPhone(event.getClient().getPhone());
+            response.add(eventRes);
+        }
+        return response;
+    }
+
+    @Override
+    public List<GetEventRes> getByClientId(Long clientId) {
+        List<Sort.Order> orders = new ArrayList<>();
+        Sort.Order statusOrder = new Sort.Order(Sort.Direction.DESC, "status");
+        Sort.Order startDateOrder = new Sort.Order(Sort.Direction.ASC, "start_date");
+        orders.add(statusOrder);
+        orders.add(startDateOrder);
+        List<EventEntity> events = eventRepository.findByClientId(clientId, PageRequest.of(0, 1000, Sort.by(orders)));
+        List<GetEventRes> response = new ArrayList<>();
+        for (EventEntity event: events) {
+            GetEventRes eventRes = new GetEventRes();
+            BeanUtils.copyProperties(event, eventRes);
+            eventRes.setClientId(event.getClient().getClientId());
+            eventRes.setClient(event.getClient().getUser().getFullName());
+            eventRes.setRepresentative(event.getClient().getRepresentative());
+            eventRes.setPhone(event.getClient().getPhone());
+            response.add(eventRes);
+        }
+        return response;
+    }
+
+    @Override
+    public List<GetEventRes> getByDelegateId(Long delegateId) {
+        List<Sort.Order> orders = new ArrayList<>();
+        Sort.Order statusOrder = new Sort.Order(Sort.Direction.DESC, "status");
+        Sort.Order startDateOrder = new Sort.Order(Sort.Direction.ASC, "start_date");
+        orders.add(statusOrder);
+        orders.add(startDateOrder);
+        List<EventEntity> events = eventRepository.findByDelegateId(delegateId, PageRequest.of(0, 1000, Sort.by(orders)));
         List<GetEventRes> response = new ArrayList<>();
         for (EventEntity event: events) {
             GetEventRes eventRes = new GetEventRes();
@@ -141,28 +179,15 @@ public class EventService implements EventServiceInterface {
         SportEventEntity sportEventEntity = new SportEventEntity();
         SportEntity sportEntity = new SportEntity();
         EventEntity eventEntity = new EventEntity();
+        DelegateEntity delegateEntity = new DelegateEntity();
         sportEntity.setSportId(sportToEventReq.getSportId());
         eventEntity.setEventId(sportToEventReq.getEventId());
+        delegateEntity.setDelegateId(sportToEventReq.getDelegateId());
         sportEventEntity.setSport(sportEntity);
         sportEventEntity.setEvent(eventEntity);
+        sportEventEntity.setDelegate(delegateEntity);
         sportEventRepository.save(sportEventEntity);
         response.setMessage("Deporte asignado correctamente");
-        response.setStatus(201);
-        return response;
-    }
-
-    @Override
-    public AssignDelegateToEventRes assignDelegateToEvent(AssignDelegateToEventReq delegateToEventReq) {
-        AssignDelegateToEventRes response = new AssignDelegateToEventRes();
-        DelegateEventEntity delegateEventEntity = new DelegateEventEntity();
-        DelegateEntity delegateEntity = new DelegateEntity();
-        EventEntity eventEntity = new EventEntity();
-        delegateEntity.setDelegateId(delegateToEventReq.getDelegateId());
-        eventEntity.setEventId(delegateToEventReq.getEventId());
-        delegateEventEntity.setDelegate(delegateEntity);
-        delegateEventEntity.setEvent(eventEntity);
-        delegateEventRepository.save(delegateEventEntity);
-        response.setMessage("Delegado asignado correctamente");
         response.setStatus(201);
         return response;
     }
@@ -171,15 +196,6 @@ public class EventService implements EventServiceInterface {
     public UnassignSportRes unassignSport(Long sportEventId) {
         UnassignSportRes response = new UnassignSportRes();
         sportEventRepository.deleteById(sportEventId);
-        response.setStatus(204);
-        response.setMessage("Eliminado correctamente.");
-        return response;
-    }
-
-    @Override
-    public UnassignDelegateRes unassignDelegate(Long delegateEventId) {
-        UnassignDelegateRes response = new UnassignDelegateRes();
-        delegateEventRepository.deleteById(delegateEventId);
         response.setStatus(204);
         response.setMessage("Eliminado correctamente.");
         return response;

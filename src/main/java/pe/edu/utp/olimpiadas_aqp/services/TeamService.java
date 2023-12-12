@@ -5,22 +5,29 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import pe.edu.utp.olimpiadas_aqp.entities.CategoryEntity;
+import pe.edu.utp.olimpiadas_aqp.entities.SportEventEntity;
 import pe.edu.utp.olimpiadas_aqp.entities.TeamEntity;
 import pe.edu.utp.olimpiadas_aqp.models.requests.team.TeamReq;
-import pe.edu.utp.olimpiadas_aqp.models.responses.team.CreateTeamRes;
-import pe.edu.utp.olimpiadas_aqp.models.responses.team.DeleteTeamRes;
-import pe.edu.utp.olimpiadas_aqp.models.responses.team.EditTeamRes;
-import pe.edu.utp.olimpiadas_aqp.models.responses.team.GetTeamRes;
+import pe.edu.utp.olimpiadas_aqp.models.responses.team.*;
+import pe.edu.utp.olimpiadas_aqp.repositories.CategoryRepository;
+import pe.edu.utp.olimpiadas_aqp.repositories.SportEventRepository;
 import pe.edu.utp.olimpiadas_aqp.repositories.TeamRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TeamService implements TeamServiceInterface {
     
     @Autowired
     TeamRepository teamRepository;
+
+    @Autowired
+    CategoryRepository categoryRepository;
+
+    @Autowired
+    SportEventRepository sportEventRepository;
 
     @Override
     public List<GetTeamRes> getAll() {
@@ -30,6 +37,33 @@ public class TeamService implements TeamServiceInterface {
             GetTeamRes teamRes = new GetTeamRes();
             BeanUtils.copyProperties(team, teamRes);
             response.add(teamRes);
+        }
+        return response;
+    }
+
+    @Override
+    public GetTeamsByCategoryIdRes getByCategoryId(Long categoryId) {
+        List<TeamEntity> teamsRes = teamRepository.findByCategoryId(categoryId);
+        GetTeamsByCategoryIdRes response = new GetTeamsByCategoryIdRes();
+        List<GetTeamRes> teams = new ArrayList<>();
+        for (TeamEntity team : teamsRes) {
+            GetTeamRes teamRes = new GetTeamRes();
+            BeanUtils.copyProperties(team, teamRes);
+            teams.add(teamRes);
+        }
+        response.setTeams(teams);
+        CategoryEntity categoryEntity;
+        Optional<CategoryEntity> findByIdRes = categoryRepository.findById(categoryId);
+        if (findByIdRes.isPresent()) {
+            categoryEntity = findByIdRes.get();
+            SportEventEntity sportEventEntity;
+            Optional<SportEventEntity> findBySportEventIdRes = sportEventRepository.findById(categoryEntity.getSportEvent().getSportEventId());
+            if (findBySportEventIdRes.isPresent()) {
+                sportEventEntity = findBySportEventIdRes.get();
+                response.setEventName(sportEventEntity.getEvent().getName());
+                response.setSportName(sportEventEntity.getSport().getName());
+            }
+            response.setCategoryName(categoryEntity.getName());
         }
         return response;
     }

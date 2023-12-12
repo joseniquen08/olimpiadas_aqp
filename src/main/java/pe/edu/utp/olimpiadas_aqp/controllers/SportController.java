@@ -25,6 +25,11 @@ public class SportController {
         return sportService.getSportsByEventId(eventId);
     }
 
+    @RequestMapping(value = "all/event_delegate/{eventId}/{delegateId}", method = RequestMethod.GET)
+    public GetSportsByEventIdRes getSportsByEventIdAndDelegateId(@PathVariable("eventId") Long eventId, @PathVariable("delegateId") Long delegateId) {
+        return sportService.getSportsByEventIdAndDelegateId(eventId, delegateId);
+    }
+
     @RequestMapping(value = "create", method = RequestMethod.POST)
     public CreateSportRes create(@RequestBody SportReq sportReq) {
         return sportService.createSport(sportReq);

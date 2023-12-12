@@ -2,6 +2,7 @@ package pe.edu.utp.olimpiadas_aqp.models.requests.team;
 
 public class TeamReq {
     private String name;
+    private String nickname;
     private String imageUrl;
     private Long categoryId;
 
@@ -11,6 +12,14 @@ public class TeamReq {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
 
     public String getImageUrl() {
